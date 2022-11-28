@@ -1,0 +1,557 @@
+2022-09-23 23:56:42:848 grammar LogManager.java:25 before: (COMBINED_GRAMMAR Expr (@ header {
+	package antlr;
+}) (RULES (RULE sourceUnit (BLOCK (ALT (* (BLOCK (ALT pragmaDirective) (ALT importDirective) (ALT contractDefinition))) EOF))) (RULE pragmaDirective (BLOCK (ALT 'pragma' pragmaName pragmaValue ';'))) (RULE pragmaName (BLOCK (ALT identifier))) (RULE pragmaValue (BLOCK (ALT version) (ALT expression))) (RULE version (BLOCK (ALT versionConstraint (? (BLOCK (ALT versionConstraint)))))) (RULE versionOperator (BLOCK (ALT '^') (ALT '~') (ALT '>=') (ALT '>') (ALT '<') (ALT '<=') (ALT '='))) (RULE versionConstraint (BLOCK (ALT (? (BLOCK (ALT versionOperator))) VersionLiteral))) (RULE importDeclaration (BLOCK (ALT identifier (? (BLOCK (ALT 'as' identifier)))))) (RULE importDirective (BLOCK (ALT 'import' StringLiteral (? (BLOCK (ALT 'as' identifier))) ';') (ALT 'import' (BLOCK (ALT '*') (ALT identifier)) (? (BLOCK (ALT 'as' identifier))) 'from' StringLiteral ';') (ALT 'import' '{' importDeclaration (* (BLOCK (ALT ',' importDeclaration))) '}' 'from' StringLiteral ';'))) (RULE NatSpecSingleLine (BLOCK (ALT (+ (BLOCK (ALT '///' (* (BLOCK (ALT .))) [\r\n])))))) (RULE NatSpecMultiLine (BLOCK (ALT '/**' (* (BLOCK (ALT .))) '*/'))) (RULE natSpec (BLOCK (ALT NatSpecSingleLine) (ALT NatSpecMultiLine))) (RULE contractDefinition (BLOCK (ALT (? (BLOCK (ALT natSpec))) (BLOCK (ALT 'contract') (ALT 'interface') (ALT 'library')) identifier (? (BLOCK (ALT 'is' inheritanceSpecifier (* (BLOCK (ALT ',' inheritanceSpecifier)))))) '{' (* (BLOCK (ALT contractPart))) '}'))) (RULE inheritanceSpecifier (BLOCK (ALT userDefinedTypeName (? (BLOCK (ALT '(' (? (BLOCK (ALT expressionList))) ')')))))) (RULE contractPart (BLOCK (ALT stateVariableDeclaration) (ALT usingForDeclaration) (ALT structDefinition) (ALT constructorDefinition) (ALT modifierDefinition) (ALT functionDefinition) (ALT eventDefinition) (ALT enumDefinition))) (RULE stateVariableDeclaration (BLOCK (ALT typeName (* (BLOCK (ALT PublicKeyword) (ALT InternalKeyword) (ALT PrivateKeyword) (ALT ConstantKeyword))) identifier (? (BLOCK (ALT '=' expression))) ';'))) (RULE usingForDeclaration (BLOCK (ALT 'using' identifier 'for' (BLOCK (ALT '*') (ALT typeName)) ';'))) (RULE structDefinition (BLOCK (ALT 'struct' identifier '{' (? (BLOCK (ALT variableDeclaration ';' (* (BLOCK (ALT variableDeclaration ';')))))) '}'))) (RULE constructorDefinition (BLOCK (ALT 'constructor' parameterList modifierList block))) (RULE modifierDefinition (BLOCK (ALT 'modifier' identifier (? (BLOCK (ALT parameterList))) block))) (RULE modifierInvocation (BLOCK (ALT identifier (? (BLOCK (ALT '(' (? (BLOCK (ALT expressionList))) ')')))))) (RULE functionDefinition (BLOCK (ALT (? (BLOCK (ALT natSpec))) 'function' (? (BLOCK (ALT identifier))) parameterList modifierList (? (BLOCK (ALT returnParameters))) (BLOCK (ALT ';') (ALT block))))) (RULE returnParameters (BLOCK (ALT 'returns' parameterList))) (RULE modifierList (BLOCK (ALT (* (BLOCK (ALT modifierInvocation) (ALT stateMutability) (ALT ExternalKeyword) (ALT PublicKeyword) (ALT InternalKeyword) (ALT PrivateKeyword)))))) (RULE eventDefinition (BLOCK (ALT (? (BLOCK (ALT natSpec))) 'event' identifier eventParameterList (? (BLOCK (ALT AnonymousKeyword))) ';'))) (RULE enumValue (BLOCK (ALT identifier))) (RULE enumDefinition (BLOCK (ALT 'enum' identifier '{' (? (BLOCK (ALT enumValue))) (* (BLOCK (ALT ',' enumValue))) '}'))) (RULE parameterList (BLOCK (ALT '(' (? (BLOCK (ALT parameter (* (BLOCK (ALT ',' parameter)))))) ')'))) (RULE parameter (BLOCK (ALT typeName (? (BLOCK (ALT storageLocation))) (? (BLOCK (ALT identifier)))))) (RULE eventParameterList (BLOCK (ALT '(' (? (BLOCK (ALT eventParameter (* (BLOCK (ALT ',' eventParameter)))))) ')'))) (RULE eventParameter (BLOCK (ALT typeName (? (BLOCK (ALT IndexedKeyword))) (? (BLOCK (ALT identifier)))))) (RULE functionTypeParameterList (BLOCK (ALT '(' (? (BLOCK (ALT functionTypeParameter (* (BLOCK (ALT ',' functionTypeParameter)))))) ')'))) (RULE functionTypeParameter (BLOCK (ALT typeName (? (BLOCK (ALT storageLocation)))))) (RULE variableDeclaration (BLOCK (ALT typeName (? (BLOCK (ALT storageLocation))) identifier))) (RULE typeName (BLOCK (ALT elementaryTypeName) (ALT userDefinedTypeName) (ALT mapping) (ALT typeName '[' (? (BLOCK (ALT expression))) ']') (ALT functionTypeName) (ALT 'address' 'payable'))) (RULE userDefinedTypeName (BLOCK (ALT identifier (* (BLOCK (ALT '.' identifier)))))) (RULE mapping (BLOCK (ALT 'mapping' '(' elementaryTypeName '=>' typeName ')'))) (RULE functionTypeName (BLOCK (ALT 'function' functionTypeParameterList (* (BLOCK (ALT InternalKeyword) (ALT ExternalKeyword) (ALT stateMutability))) (? (BLOCK (ALT 'returns' functionTypeParameterList)))))) (RULE storageLocation (BLOCK (ALT 'memory') (ALT 'storage') (ALT 'calldata'))) (RULE stateMutability (BLOCK (ALT PureKeyword) (ALT ConstantKeyword) (ALT ViewKeyword) (ALT PayableKeyword))) (RULE block (BLOCK (ALT '{' (* (BLOCK (ALT statement))) '}'))) (RULE statement (BLOCK (ALT ifStatement) (ALT whileStatement) (ALT forStatement) (ALT block) (ALT inlineAssemblyStatement) (ALT doWhileStatement) (ALT continueStatement) (ALT breakStatement) (ALT returnStatement) (ALT throwStatement) (ALT emitStatement) (ALT simpleStatement))) (RULE expressionStatement (BLOCK (ALT expression ';'))) (RULE ifStatement (BLOCK (ALT 'if' '(' expression ')' statement (? (BLOCK (ALT 'else' statement)))))) (RULE whileStatement (BLOCK (ALT 'while' '(' expression ')' statement))) (RULE simpleStatement (BLOCK (ALT (BLOCK (ALT variableDeclarationStatement) (ALT expressionStatement))))) (RULE forStatement (BLOCK (ALT 'for' '(' (BLOCK (ALT simpleStatement) (ALT ';')) (BLOCK (ALT expressionStatement) (ALT ';')) (? (BLOCK (ALT expression))) ')' statement))) (RULE inlineAssemblyStatement (BLOCK (ALT 'assembly' (? (BLOCK (ALT StringLiteral))) assemblyBlock))) (RULE doWhileStatement (BLOCK (ALT 'do' statement 'while' '(' expression ')' ';'))) (RULE continueStatement (BLOCK (ALT 'continue' ';'))) (RULE breakStatement (BLOCK (ALT 'break' ';'))) (RULE returnStatement (BLOCK (ALT 'return' (? (BLOCK (ALT expression))) ';'))) (RULE throwStatement (BLOCK (ALT 'throw' ';'))) (RULE emitStatement (BLOCK (ALT 'emit' functionCall ';'))) (RULE variableDeclarationStatement (BLOCK (ALT (BLOCK (ALT 'var' identifierList) (ALT variableDeclaration) (ALT '(' variableDeclarationList ')')) (? (BLOCK (ALT '=' expression))) ';'))) (RULE variableDeclarationList (BLOCK (ALT (? (BLOCK (ALT variableDeclaration))) (* (BLOCK (ALT ',' (? (BLOCK (ALT variableDeclaration))))))))) (RULE identifierList (BLOCK (ALT '(' (* (BLOCK (ALT (? (BLOCK (ALT identifier))) ','))) (? (BLOCK (ALT identifier))) ')'))) (RULE elementaryTypeName (BLOCK (ALT 'address') (ALT 'bool') (ALT 'string') (ALT 'var') (ALT Int) (ALT Uint) (ALT 'byte') (ALT Byte) (ALT Fixed) (ALT Ufixed))) (RULE Int (BLOCK (ALT 'int') (ALT 'int8') (ALT 'int16') (ALT 'int24') (ALT 'int32') (ALT 'int40') (ALT 'int48') (ALT 'int56') (ALT 'int64') (ALT 'int72') (ALT 'int80') (ALT 'int88') (ALT 'int96') (ALT 'int104') (ALT 'int112') (ALT 'int120') (ALT 'int128') (ALT 'int136') (ALT 'int144') (ALT 'int152') (ALT 'int160') (ALT 'int168') (ALT 'int176') (ALT 'int184') (ALT 'int192') (ALT 'int200') (ALT 'int208') (ALT 'int216') (ALT 'int224') (ALT 'int232') (ALT 'int240') (ALT 'int248') (ALT 'int256'))) (RULE Uint (BLOCK (ALT 'uint') (ALT 'uint8') (ALT 'uint16') (ALT 'uint24') (ALT 'uint32') (ALT 'uint40') (ALT 'uint48') (ALT 'uint56') (ALT 'uint64') (ALT 'uint72') (ALT 'uint80') (ALT 'uint88') (ALT 'uint96') (ALT 'uint104') (ALT 'uint112') (ALT 'uint120') (ALT 'uint128') (ALT 'uint136') (ALT 'uint144') (ALT 'uint152') (ALT 'uint160') (ALT 'uint168') (ALT 'uint176') (ALT 'uint184') (ALT 'uint192') (ALT 'uint200') (ALT 'uint208') (ALT 'uint216') (ALT 'uint224') (ALT 'uint232') (ALT 'uint240') (ALT 'uint248') (ALT 'uint256'))) (RULE Byte (BLOCK (ALT 'bytes') (ALT 'bytes1') (ALT 'bytes2') (ALT 'bytes3') (ALT 'bytes4') (ALT 'bytes5') (ALT 'bytes6') (ALT 'bytes7') (ALT 'bytes8') (ALT 'bytes9') (ALT 'bytes10') (ALT 'bytes11') (ALT 'bytes12') (ALT 'bytes13') (ALT 'bytes14') (ALT 'bytes15') (ALT 'bytes16') (ALT 'bytes17') (ALT 'bytes18') (ALT 'bytes19') (ALT 'bytes20') (ALT 'bytes21') (ALT 'bytes22') (ALT 'bytes23') (ALT 'bytes24') (ALT 'bytes25') (ALT 'bytes26') (ALT 'bytes27') (ALT 'bytes28') (ALT 'bytes29') (ALT 'bytes30') (ALT 'bytes31') (ALT 'bytes32'))) (RULE Fixed (BLOCK (ALT 'fixed') (ALT (BLOCK (ALT 'fixed' (+ (BLOCK (ALT [0-9]))) 'x' (+ (BLOCK (ALT [0-9])))))))) (RULE Ufixed (BLOCK (ALT 'ufixed') (ALT (BLOCK (ALT 'ufixed' (+ (BLOCK (ALT [0-9]))) 'x' (+ (BLOCK (ALT [0-9])))))))) (RULE expression (BLOCK (ALT expression (BLOCK (ALT '++') (ALT '--'))) (ALT 'new' typeName) (ALT expression '[' expression ']') (ALT expression '(' functionCallArguments ')') (ALT expression '.' identifier) (ALT '(' expression ')') (ALT (BLOCK (ALT '++') (ALT '--')) expression) (ALT (BLOCK (ALT '+') (ALT '-')) expression) (ALT (BLOCK (ALT 'after') (ALT 'delete')) expression) (ALT '!' expression) (ALT '~' expression) (ALT expression '**' expression) (ALT expression (BLOCK (ALT '*') (ALT '/') (ALT '%')) expression) (ALT expression (BLOCK (ALT '+') (ALT '-')) expression) (ALT expression (BLOCK (ALT '<<') (ALT '>>')) expression) (ALT expression '&' expression) (ALT expression '^' expression) (ALT expression '|' expression) (ALT expression (BLOCK (ALT '<') (ALT '>') (ALT '<=') (ALT '>=')) expression) (ALT expression (BLOCK (ALT '==') (ALT '!=')) expression) (ALT expression '&&' expression) (ALT expression '||' expression) (ALT expression '?' expression ':' expression) (ALT expression (BLOCK (ALT '=') (ALT '|=') (ALT '^=') (ALT '&=') (ALT '<<=') (ALT '>>=') (ALT '+=') (ALT '-=') (ALT '*=') (ALT '/=') (ALT '%=')) expression) (ALT primaryExpression))) (RULE primaryExpression (BLOCK (ALT BooleanLiteral) (ALT numberLiteral) (ALT HexLiteral) (ALT StringLiteral) (ALT identifier (? (BLOCK (ALT '[' ']')))) (ALT TypeKeyword) (ALT tupleExpression) (ALT typeNameExpression (? (BLOCK (ALT '[' ']')))))) (RULE expressionList (BLOCK (ALT expression (* (BLOCK (ALT ',' expression)))))) (RULE nameValueList (BLOCK (ALT nameValue (* (BLOCK (ALT ',' nameValue))) (? (BLOCK (ALT ',')))))) (RULE nameValue (BLOCK (ALT identifier ':' expression))) (RULE functionCallArguments (BLOCK (ALT '{' (? (BLOCK (ALT nameValueList))) '}') (ALT (? (BLOCK (ALT expressionList)))))) (RULE functionCall (BLOCK (ALT expression '(' functionCallArguments ')'))) (RULE assemblyBlock (BLOCK (ALT '{' (* (BLOCK (ALT assemblyItem))) '}'))) (RULE assemblyItem (BLOCK (ALT identifier) (ALT assemblyBlock) (ALT assemblyExpression) (ALT assemblyLocalDefinition) (ALT assemblyAssignment) (ALT assemblyStackAssignment) (ALT labelDefinition) (ALT assemblySwitch) (ALT assemblyFunctionDefinition) (ALT assemblyFor) (ALT assemblyIf) (ALT BreakKeyword) (ALT ContinueKeyword) (ALT subAssembly) (ALT numberLiteral) (ALT StringLiteral) (ALT HexLiteral))) (RULE assemblyExpression (BLOCK (ALT assemblyCall) (ALT assemblyLiteral))) (RULE assemblyCall (BLOCK (ALT (BLOCK (ALT 'return') (ALT 'address') (ALT 'byte') (ALT identifier)) (? (BLOCK (ALT '(' (? (BLOCK (ALT assemblyExpression))) (* (BLOCK (ALT ',' assemblyExpression))) ')')))))) (RULE assemblyLocalDefinition (BLOCK (ALT 'let' assemblyIdentifierOrList (? (BLOCK (ALT ':=' assemblyExpression)))))) (RULE assemblyAssignment (BLOCK (ALT assemblyIdentifierOrList ':=' assemblyExpression))) (RULE assemblyIdentifierOrList (BLOCK (ALT identifier) (ALT '(' assemblyIdentifierList ')'))) (RULE assemblyIdentifierList (BLOCK (ALT identifier (* (BLOCK (ALT ',' identifier)))))) (RULE assemblyStackAssignment (BLOCK (ALT '=:' identifier))) (RULE labelDefinition (BLOCK (ALT identifier ':'))) (RULE assemblySwitch (BLOCK (ALT 'switch' assemblyExpression (* (BLOCK (ALT assemblyCase)))))) (RULE assemblyCase (BLOCK (ALT 'case' assemblyLiteral assemblyBlock) (ALT 'default' assemblyBlock))) (RULE assemblyFunctionDefinition (BLOCK (ALT 'function' identifier '(' (? (BLOCK (ALT assemblyIdentifierList))) ')' (? (BLOCK (ALT assemblyFunctionReturns))) assemblyBlock))) (RULE assemblyFunctionReturns (BLOCK (ALT (BLOCK (ALT '->' assemblyIdentifierList))))) (RULE assemblyFor (BLOCK (ALT 'for' (BLOCK (ALT assemblyBlock) (ALT assemblyExpression)) assemblyExpression (BLOCK (ALT assemblyBlock) (ALT assemblyExpression)) assemblyBlock))) (RULE assemblyIf (BLOCK (ALT 'if' assemblyExpression assemblyBlock))) (RULE assemblyLiteral (BLOCK (ALT StringLiteral) (ALT DecimalNumber) (ALT HexNumber) (ALT HexLiteral))) (RULE subAssembly (BLOCK (ALT 'assembly' identifier assemblyBlock))) (RULE tupleExpression (BLOCK (ALT '(' (BLOCK (ALT (? (BLOCK (ALT expression))) (* (BLOCK (ALT ',' (? (BLOCK (ALT expression)))))))) ')') (ALT '[' (? (BLOCK (ALT expression (* (BLOCK (ALT ',' expression)))))) ']'))) (RULE typeNameExpression (BLOCK (ALT elementaryTypeName) (ALT userDefinedTypeName))) (RULE numberLiteral (BLOCK (ALT (BLOCK (ALT DecimalNumber) (ALT HexNumber)) (? (BLOCK (ALT NumberUnit)))))) (RULE identifier (BLOCK (ALT (BLOCK (ALT 'from') (ALT 'calldata') (ALT Identifier))))) (RULE VersionLiteral (BLOCK (ALT (+ (BLOCK (ALT [0-9]))) '.' (+ (BLOCK (ALT [0-9]))) '.' (+ (BLOCK (ALT [0-9])))))) (RULE BooleanLiteral (BLOCK (ALT 'true') (ALT 'false'))) (RULE DecimalNumber (BLOCK (ALT (BLOCK (ALT DecimalDigits) (ALT (BLOCK (ALT (? (BLOCK (ALT DecimalDigits))) '.' DecimalDigits)))) (? (BLOCK (ALT [eE] DecimalDigits)))))) (RULE DecimalDigits (RULEMODIFIERS fragment) (BLOCK (ALT [0-9] (* (BLOCK (ALT (? (BLOCK (ALT '_'))) [0-9])))))) (RULE HexNumber (BLOCK (ALT '0' [xX] HexDigits))) (RULE HexDigits (RULEMODIFIERS fragment) (BLOCK (ALT HexCharacter (* (BLOCK (ALT (? (BLOCK (ALT '_'))) HexCharacter)))))) (RULE NumberUnit (BLOCK (ALT 'wei') (ALT 'szabo') (ALT 'finney') (ALT 'ether') (ALT 'seconds') (ALT 'minutes') (ALT 'hours') (ALT 'days') (ALT 'weeks') (ALT 'years'))) (RULE HexLiteral (BLOCK (ALT 'hex' (BLOCK (ALT '"' (* (BLOCK (ALT HexPair))) '"') (ALT '\'' (* (BLOCK (ALT HexPair))) '\''))))) (RULE HexPair (RULEMODIFIERS fragment) (BLOCK (ALT HexCharacter HexCharacter))) (RULE HexCharacter (RULEMODIFIERS fragment) (BLOCK (ALT [0-9A-Fa-f]))) (RULE ReservedKeyword (BLOCK (ALT 'abstract') (ALT 'after') (ALT 'case') (ALT 'catch') (ALT 'default') (ALT 'final') (ALT 'in') (ALT 'inline') (ALT 'let') (ALT 'match') (ALT 'null') (ALT 'of') (ALT 'relocatable') (ALT 'static') (ALT 'switch') (ALT 'try') (ALT 'typeof'))) (RULE AnonymousKeyword (BLOCK (ALT 'anonymous'))) (RULE BreakKeyword (BLOCK (ALT 'break'))) (RULE ConstantKeyword (BLOCK (ALT 'constant'))) (RULE ContinueKeyword (BLOCK (ALT 'continue'))) (RULE ExternalKeyword (BLOCK (ALT 'external'))) (RULE IndexedKeyword (BLOCK (ALT 'indexed'))) (RULE InternalKeyword (BLOCK (ALT 'internal'))) (RULE PayableKeyword (BLOCK (ALT 'payable'))) (RULE PrivateKeyword (BLOCK (ALT 'private'))) (RULE PublicKeyword (BLOCK (ALT 'public'))) (RULE PureKeyword (BLOCK (ALT 'pure'))) (RULE TypeKeyword (BLOCK (ALT 'type'))) (RULE ViewKeyword (BLOCK (ALT 'view'))) (RULE Identifier (BLOCK (ALT IdentifierStart (* (BLOCK (ALT IdentifierPart)))))) (RULE IdentifierStart (RULEMODIFIERS fragment) (BLOCK (ALT [a-zA-Z$_]))) (RULE IdentifierPart (RULEMODIFIERS fragment) (BLOCK (ALT [a-zA-Z0-9$_]))) (RULE StringLiteral (BLOCK (ALT '"' (* (BLOCK (ALT DoubleQuotedStringCharacter))) '"') (ALT '\'' (* (BLOCK (ALT SingleQuotedStringCharacter))) '\''))) (RULE DoubleQuotedStringCharacter (RULEMODIFIERS fragment) (BLOCK (ALT (~ (SET ["\r\n\\]))) (ALT (BLOCK (ALT '\\' .))))) (RULE SingleQuotedStringCharacter (RULEMODIFIERS fragment) (BLOCK (ALT (~ (SET ['\r\n\\]))) (ALT (BLOCK (ALT '\\' .))))) (RULE WS (BLOCK (LEXER_ALT_ACTION (ALT (+ (BLOCK (ALT [ \t\r\n\u000C])))) skip))) (RULE COMMENT (BLOCK (LEXER_ALT_ACTION (ALT '/*' (* (BLOCK (ALT .))) '*/') (LEXER_ACTION_CALL channel HIDDEN)))) (RULE LINE_COMMENT (BLOCK (LEXER_ALT_ACTION (ALT '//' (* (BLOCK (ALT (~ (SET [\r\n])))))) (LEXER_ACTION_CALL channel HIDDEN))))))
+2022-09-23 23:56:42:886 grammar LogManager.java:25 after: (COMBINED_GRAMMAR Expr (@ header {
+	package antlr;
+}) (RULES (RULE sourceUnit (BLOCK (ALT (* (BLOCK (ALT pragmaDirective) (ALT importDirective) (ALT contractDefinition))) EOF))) (RULE pragmaDirective (BLOCK (ALT 'pragma' pragmaName pragmaValue ';'))) (RULE pragmaName (BLOCK (ALT identifier))) (RULE pragmaValue (BLOCK (ALT version) (ALT expression))) (RULE version (BLOCK (ALT versionConstraint (? (BLOCK (ALT versionConstraint)))))) (RULE versionOperator (BLOCK (ALT (SET '^' '~' '>=' '>' '<' '<=' '=')))) (RULE versionConstraint (BLOCK (ALT (? (BLOCK (ALT versionOperator))) VersionLiteral))) (RULE importDeclaration (BLOCK (ALT identifier (? (BLOCK (ALT 'as' identifier)))))) (RULE importDirective (BLOCK (ALT 'import' StringLiteral (? (BLOCK (ALT 'as' identifier))) ';') (ALT 'import' (BLOCK (ALT '*') (ALT identifier)) (? (BLOCK (ALT 'as' identifier))) 'from' StringLiteral ';') (ALT 'import' '{' importDeclaration (* (BLOCK (ALT ',' importDeclaration))) '}' 'from' StringLiteral ';'))) (RULE NatSpecSingleLine (BLOCK (ALT (+ (BLOCK (ALT '///' (* (BLOCK (ALT .))) [\r\n])))))) (RULE NatSpecMultiLine (BLOCK (ALT '/**' (* (BLOCK (ALT .))) '*/'))) (RULE natSpec (BLOCK (ALT (SET NatSpecSingleLine NatSpecMultiLine)))) (RULE contractDefinition (BLOCK (ALT (? (BLOCK (ALT natSpec))) (SET 'contract' 'interface' 'library') identifier (? (BLOCK (ALT 'is' inheritanceSpecifier (* (BLOCK (ALT ',' inheritanceSpecifier)))))) '{' (* (BLOCK (ALT contractPart))) '}'))) (RULE inheritanceSpecifier (BLOCK (ALT userDefinedTypeName (? (BLOCK (ALT '(' (? (BLOCK (ALT expressionList))) ')')))))) (RULE contractPart (BLOCK (ALT stateVariableDeclaration) (ALT usingForDeclaration) (ALT structDefinition) (ALT constructorDefinition) (ALT modifierDefinition) (ALT functionDefinition) (ALT eventDefinition) (ALT enumDefinition))) (RULE stateVariableDeclaration (BLOCK (ALT typeName (* (BLOCK (ALT (SET PublicKeyword InternalKeyword PrivateKeyword ConstantKeyword)))) identifier (? (BLOCK (ALT '=' expression))) ';'))) (RULE usingForDeclaration (BLOCK (ALT 'using' identifier 'for' (BLOCK (ALT '*') (ALT typeName)) ';'))) (RULE structDefinition (BLOCK (ALT 'struct' identifier '{' (? (BLOCK (ALT variableDeclaration ';' (* (BLOCK (ALT variableDeclaration ';')))))) '}'))) (RULE constructorDefinition (BLOCK (ALT 'constructor' parameterList modifierList block))) (RULE modifierDefinition (BLOCK (ALT 'modifier' identifier (? (BLOCK (ALT parameterList))) block))) (RULE modifierInvocation (BLOCK (ALT identifier (? (BLOCK (ALT '(' (? (BLOCK (ALT expressionList))) ')')))))) (RULE functionDefinition (BLOCK (ALT (? (BLOCK (ALT natSpec))) 'function' (? (BLOCK (ALT identifier))) parameterList modifierList (? (BLOCK (ALT returnParameters))) (BLOCK (ALT ';') (ALT block))))) (RULE returnParameters (BLOCK (ALT 'returns' parameterList))) (RULE modifierList (BLOCK (ALT (* (BLOCK (ALT modifierInvocation) (ALT stateMutability) (ALT ExternalKeyword) (ALT PublicKeyword) (ALT InternalKeyword) (ALT PrivateKeyword)))))) (RULE eventDefinition (BLOCK (ALT (? (BLOCK (ALT natSpec))) 'event' identifier eventParameterList (? (BLOCK (ALT AnonymousKeyword))) ';'))) (RULE enumValue (BLOCK (ALT identifier))) (RULE enumDefinition (BLOCK (ALT 'enum' identifier '{' (? (BLOCK (ALT enumValue))) (* (BLOCK (ALT ',' enumValue))) '}'))) (RULE parameterList (BLOCK (ALT '(' (? (BLOCK (ALT parameter (* (BLOCK (ALT ',' parameter)))))) ')'))) (RULE parameter (BLOCK (ALT typeName (? (BLOCK (ALT storageLocation))) (? (BLOCK (ALT identifier)))))) (RULE eventParameterList (BLOCK (ALT '(' (? (BLOCK (ALT eventParameter (* (BLOCK (ALT ',' eventParameter)))))) ')'))) (RULE eventParameter (BLOCK (ALT typeName (? (BLOCK (ALT IndexedKeyword))) (? (BLOCK (ALT identifier)))))) (RULE functionTypeParameterList (BLOCK (ALT '(' (? (BLOCK (ALT functionTypeParameter (* (BLOCK (ALT ',' functionTypeParameter)))))) ')'))) (RULE functionTypeParameter (BLOCK (ALT typeName (? (BLOCK (ALT storageLocation)))))) (RULE variableDeclaration (BLOCK (ALT typeName (? (BLOCK (ALT storageLocation))) identifier))) (RULE typeName (BLOCK (ALT elementaryTypeName) (ALT userDefinedTypeName) (ALT mapping) (ALT typeName '[' (? (BLOCK (ALT expression))) ']') (ALT functionTypeName) (ALT 'address' 'payable'))) (RULE userDefinedTypeName (BLOCK (ALT identifier (* (BLOCK (ALT '.' identifier)))))) (RULE mapping (BLOCK (ALT 'mapping' '(' elementaryTypeName '=>' typeName ')'))) (RULE functionTypeName (BLOCK (ALT 'function' functionTypeParameterList (* (BLOCK (ALT InternalKeyword) (ALT ExternalKeyword) (ALT stateMutability))) (? (BLOCK (ALT 'returns' functionTypeParameterList)))))) (RULE storageLocation (BLOCK (ALT (SET 'memory' 'storage' 'calldata')))) (RULE stateMutability (BLOCK (ALT (SET PureKeyword ConstantKeyword ViewKeyword PayableKeyword)))) (RULE block (BLOCK (ALT '{' (* (BLOCK (ALT statement))) '}'))) (RULE statement (BLOCK (ALT ifStatement) (ALT whileStatement) (ALT forStatement) (ALT block) (ALT inlineAssemblyStatement) (ALT doWhileStatement) (ALT continueStatement) (ALT breakStatement) (ALT returnStatement) (ALT throwStatement) (ALT emitStatement) (ALT simpleStatement))) (RULE expressionStatement (BLOCK (ALT expression ';'))) (RULE ifStatement (BLOCK (ALT 'if' '(' expression ')' statement (? (BLOCK (ALT 'else' statement)))))) (RULE whileStatement (BLOCK (ALT 'while' '(' expression ')' statement))) (RULE simpleStatement (BLOCK (ALT (BLOCK (ALT variableDeclarationStatement) (ALT expressionStatement))))) (RULE forStatement (BLOCK (ALT 'for' '(' (BLOCK (ALT simpleStatement) (ALT ';')) (BLOCK (ALT expressionStatement) (ALT ';')) (? (BLOCK (ALT expression))) ')' statement))) (RULE inlineAssemblyStatement (BLOCK (ALT 'assembly' (? (BLOCK (ALT StringLiteral))) assemblyBlock))) (RULE doWhileStatement (BLOCK (ALT 'do' statement 'while' '(' expression ')' ';'))) (RULE continueStatement (BLOCK (ALT 'continue' ';'))) (RULE breakStatement (BLOCK (ALT 'break' ';'))) (RULE returnStatement (BLOCK (ALT 'return' (? (BLOCK (ALT expression))) ';'))) (RULE throwStatement (BLOCK (ALT 'throw' ';'))) (RULE emitStatement (BLOCK (ALT 'emit' functionCall ';'))) (RULE variableDeclarationStatement (BLOCK (ALT (BLOCK (ALT 'var' identifierList) (ALT variableDeclaration) (ALT '(' variableDeclarationList ')')) (? (BLOCK (ALT '=' expression))) ';'))) (RULE variableDeclarationList (BLOCK (ALT (? (BLOCK (ALT variableDeclaration))) (* (BLOCK (ALT ',' (? (BLOCK (ALT variableDeclaration))))))))) (RULE identifierList (BLOCK (ALT '(' (* (BLOCK (ALT (? (BLOCK (ALT identifier))) ','))) (? (BLOCK (ALT identifier))) ')'))) (RULE elementaryTypeName (BLOCK (ALT (SET 'address' 'bool' 'string' 'var' Int Uint 'byte' Byte Fixed Ufixed)))) (RULE Int (BLOCK (ALT 'int') (ALT 'int8') (ALT 'int16') (ALT 'int24') (ALT 'int32') (ALT 'int40') (ALT 'int48') (ALT 'int56') (ALT 'int64') (ALT 'int72') (ALT 'int80') (ALT 'int88') (ALT 'int96') (ALT 'int104') (ALT 'int112') (ALT 'int120') (ALT 'int128') (ALT 'int136') (ALT 'int144') (ALT 'int152') (ALT 'int160') (ALT 'int168') (ALT 'int176') (ALT 'int184') (ALT 'int192') (ALT 'int200') (ALT 'int208') (ALT 'int216') (ALT 'int224') (ALT 'int232') (ALT 'int240') (ALT 'int248') (ALT 'int256'))) (RULE Uint (BLOCK (ALT 'uint') (ALT 'uint8') (ALT 'uint16') (ALT 'uint24') (ALT 'uint32') (ALT 'uint40') (ALT 'uint48') (ALT 'uint56') (ALT 'uint64') (ALT 'uint72') (ALT 'uint80') (ALT 'uint88') (ALT 'uint96') (ALT 'uint104') (ALT 'uint112') (ALT 'uint120') (ALT 'uint128') (ALT 'uint136') (ALT 'uint144') (ALT 'uint152') (ALT 'uint160') (ALT 'uint168') (ALT 'uint176') (ALT 'uint184') (ALT 'uint192') (ALT 'uint200') (ALT 'uint208') (ALT 'uint216') (ALT 'uint224') (ALT 'uint232') (ALT 'uint240') (ALT 'uint248') (ALT 'uint256'))) (RULE Byte (BLOCK (ALT 'bytes') (ALT 'bytes1') (ALT 'bytes2') (ALT 'bytes3') (ALT 'bytes4') (ALT 'bytes5') (ALT 'bytes6') (ALT 'bytes7') (ALT 'bytes8') (ALT 'bytes9') (ALT 'bytes10') (ALT 'bytes11') (ALT 'bytes12') (ALT 'bytes13') (ALT 'bytes14') (ALT 'bytes15') (ALT 'bytes16') (ALT 'bytes17') (ALT 'bytes18') (ALT 'bytes19') (ALT 'bytes20') (ALT 'bytes21') (ALT 'bytes22') (ALT 'bytes23') (ALT 'bytes24') (ALT 'bytes25') (ALT 'bytes26') (ALT 'bytes27') (ALT 'bytes28') (ALT 'bytes29') (ALT 'bytes30') (ALT 'bytes31') (ALT 'bytes32'))) (RULE Fixed (BLOCK (ALT 'fixed') (ALT (BLOCK (ALT 'fixed' (+ (BLOCK (ALT [0-9]))) 'x' (+ (BLOCK (ALT [0-9])))))))) (RULE Ufixed (BLOCK (ALT 'ufixed') (ALT (BLOCK (ALT 'ufixed' (+ (BLOCK (ALT [0-9]))) 'x' (+ (BLOCK (ALT [0-9])))))))) (RULE expression (BLOCK (ALT expression (SET '++' '--')) (ALT 'new' typeName) (ALT expression '[' expression ']') (ALT expression '(' functionCallArguments ')') (ALT expression '.' identifier) (ALT '(' expression ')') (ALT (SET '++' '--') expression) (ALT (SET '+' '-') expression) (ALT (SET 'after' 'delete') expression) (ALT '!' expression) (ALT '~' expression) (ALT expression '**' expression) (ALT expression (SET '*' '/' '%') expression) (ALT expression (SET '+' '-') expression) (ALT expression (SET '<<' '>>') expression) (ALT expression '&' expression) (ALT expression '^' expression) (ALT expression '|' expression) (ALT expression (SET '<' '>' '<=' '>=') expression) (ALT expression (SET '==' '!=') expression) (ALT expression '&&' expression) (ALT expression '||' expression) (ALT expression '?' expression ':' expression) (ALT expression (SET '=' '|=' '^=' '&=' '<<=' '>>=' '+=' '-=' '*=' '/=' '%=') expression) (ALT primaryExpression))) (RULE primaryExpression (BLOCK (ALT BooleanLiteral) (ALT numberLiteral) (ALT HexLiteral) (ALT StringLiteral) (ALT identifier (? (BLOCK (ALT '[' ']')))) (ALT TypeKeyword) (ALT tupleExpression) (ALT typeNameExpression (? (BLOCK (ALT '[' ']')))))) (RULE expressionList (BLOCK (ALT expression (* (BLOCK (ALT ',' expression)))))) (RULE nameValueList (BLOCK (ALT nameValue (* (BLOCK (ALT ',' nameValue))) (? (BLOCK (ALT ',')))))) (RULE nameValue (BLOCK (ALT identifier ':' expression))) (RULE functionCallArguments (BLOCK (ALT '{' (? (BLOCK (ALT nameValueList))) '}') (ALT (? (BLOCK (ALT expressionList)))))) (RULE functionCall (BLOCK (ALT expression '(' functionCallArguments ')'))) (RULE assemblyBlock (BLOCK (ALT '{' (* (BLOCK (ALT assemblyItem))) '}'))) (RULE assemblyItem (BLOCK (ALT identifier) (ALT assemblyBlock) (ALT assemblyExpression) (ALT assemblyLocalDefinition) (ALT assemblyAssignment) (ALT assemblyStackAssignment) (ALT labelDefinition) (ALT assemblySwitch) (ALT assemblyFunctionDefinition) (ALT assemblyFor) (ALT assemblyIf) (ALT BreakKeyword) (ALT ContinueKeyword) (ALT subAssembly) (ALT numberLiteral) (ALT StringLiteral) (ALT HexLiteral))) (RULE assemblyExpression (BLOCK (ALT assemblyCall) (ALT assemblyLiteral))) (RULE assemblyCall (BLOCK (ALT (BLOCK (ALT 'return') (ALT 'address') (ALT 'byte') (ALT identifier)) (? (BLOCK (ALT '(' (? (BLOCK (ALT assemblyExpression))) (* (BLOCK (ALT ',' assemblyExpression))) ')')))))) (RULE assemblyLocalDefinition (BLOCK (ALT 'let' assemblyIdentifierOrList (? (BLOCK (ALT ':=' assemblyExpression)))))) (RULE assemblyAssignment (BLOCK (ALT assemblyIdentifierOrList ':=' assemblyExpression))) (RULE assemblyIdentifierOrList (BLOCK (ALT identifier) (ALT '(' assemblyIdentifierList ')'))) (RULE assemblyIdentifierList (BLOCK (ALT identifier (* (BLOCK (ALT ',' identifier)))))) (RULE assemblyStackAssignment (BLOCK (ALT '=:' identifier))) (RULE labelDefinition (BLOCK (ALT identifier ':'))) (RULE assemblySwitch (BLOCK (ALT 'switch' assemblyExpression (* (BLOCK (ALT assemblyCase)))))) (RULE assemblyCase (BLOCK (ALT 'case' assemblyLiteral assemblyBlock) (ALT 'default' assemblyBlock))) (RULE assemblyFunctionDefinition (BLOCK (ALT 'function' identifier '(' (? (BLOCK (ALT assemblyIdentifierList))) ')' (? (BLOCK (ALT assemblyFunctionReturns))) assemblyBlock))) (RULE assemblyFunctionReturns (BLOCK (ALT (BLOCK (ALT '->' assemblyIdentifierList))))) (RULE assemblyFor (BLOCK (ALT 'for' (BLOCK (ALT assemblyBlock) (ALT assemblyExpression)) assemblyExpression (BLOCK (ALT assemblyBlock) (ALT assemblyExpression)) assemblyBlock))) (RULE assemblyIf (BLOCK (ALT 'if' assemblyExpression assemblyBlock))) (RULE assemblyLiteral (BLOCK (ALT (SET StringLiteral DecimalNumber HexNumber HexLiteral)))) (RULE subAssembly (BLOCK (ALT 'assembly' identifier assemblyBlock))) (RULE tupleExpression (BLOCK (ALT '(' (BLOCK (ALT (? (BLOCK (ALT expression))) (* (BLOCK (ALT ',' (? (BLOCK (ALT expression)))))))) ')') (ALT '[' (? (BLOCK (ALT expression (* (BLOCK (ALT ',' expression)))))) ']'))) (RULE typeNameExpression (BLOCK (ALT elementaryTypeName) (ALT userDefinedTypeName))) (RULE numberLiteral (BLOCK (ALT (SET DecimalNumber HexNumber) (? (BLOCK (ALT NumberUnit)))))) (RULE identifier (BLOCK (ALT (SET 'from' 'calldata' Identifier)))) (RULE VersionLiteral (BLOCK (ALT (+ (BLOCK (ALT [0-9]))) '.' (+ (BLOCK (ALT [0-9]))) '.' (+ (BLOCK (ALT [0-9])))))) (RULE BooleanLiteral (BLOCK (ALT 'true') (ALT 'false'))) (RULE DecimalNumber (BLOCK (ALT (BLOCK (ALT DecimalDigits) (ALT (BLOCK (ALT (? (BLOCK (ALT DecimalDigits))) '.' DecimalDigits)))) (? (BLOCK (ALT [eE] DecimalDigits)))))) (RULE DecimalDigits (RULEMODIFIERS fragment) (BLOCK (ALT [0-9] (* (BLOCK (ALT (? (BLOCK (ALT '_'))) [0-9])))))) (RULE HexNumber (BLOCK (ALT '0' [xX] HexDigits))) (RULE HexDigits (RULEMODIFIERS fragment) (BLOCK (ALT HexCharacter (* (BLOCK (ALT (? (BLOCK (ALT '_'))) HexCharacter)))))) (RULE NumberUnit (BLOCK (ALT 'wei') (ALT 'szabo') (ALT 'finney') (ALT 'ether') (ALT 'seconds') (ALT 'minutes') (ALT 'hours') (ALT 'days') (ALT 'weeks') (ALT 'years'))) (RULE HexLiteral (BLOCK (ALT 'hex' (BLOCK (ALT '"' (* (BLOCK (ALT HexPair))) '"') (ALT '\'' (* (BLOCK (ALT HexPair))) '\''))))) (RULE HexPair (RULEMODIFIERS fragment) (BLOCK (ALT HexCharacter HexCharacter))) (RULE HexCharacter (RULEMODIFIERS fragment) (BLOCK (ALT [0-9A-Fa-f]))) (RULE ReservedKeyword (BLOCK (ALT 'abstract') (ALT 'after') (ALT 'case') (ALT 'catch') (ALT 'default') (ALT 'final') (ALT 'in') (ALT 'inline') (ALT 'let') (ALT 'match') (ALT 'null') (ALT 'of') (ALT 'relocatable') (ALT 'static') (ALT 'switch') (ALT 'try') (ALT 'typeof'))) (RULE AnonymousKeyword (BLOCK (ALT 'anonymous'))) (RULE BreakKeyword (BLOCK (ALT 'break'))) (RULE ConstantKeyword (BLOCK (ALT 'constant'))) (RULE ContinueKeyword (BLOCK (ALT 'continue'))) (RULE ExternalKeyword (BLOCK (ALT 'external'))) (RULE IndexedKeyword (BLOCK (ALT 'indexed'))) (RULE InternalKeyword (BLOCK (ALT 'internal'))) (RULE PayableKeyword (BLOCK (ALT 'payable'))) (RULE PrivateKeyword (BLOCK (ALT 'private'))) (RULE PublicKeyword (BLOCK (ALT 'public'))) (RULE PureKeyword (BLOCK (ALT 'pure'))) (RULE TypeKeyword (BLOCK (ALT 'type'))) (RULE ViewKeyword (BLOCK (ALT 'view'))) (RULE Identifier (BLOCK (ALT IdentifierStart (* (BLOCK (ALT IdentifierPart)))))) (RULE IdentifierStart (RULEMODIFIERS fragment) (BLOCK (ALT [a-zA-Z$_]))) (RULE IdentifierPart (RULEMODIFIERS fragment) (BLOCK (ALT [a-zA-Z0-9$_]))) (RULE StringLiteral (BLOCK (ALT '"' (* (BLOCK (ALT DoubleQuotedStringCharacter))) '"') (ALT '\'' (* (BLOCK (ALT SingleQuotedStringCharacter))) '\''))) (RULE DoubleQuotedStringCharacter (RULEMODIFIERS fragment) (BLOCK (ALT (~ (SET ["\r\n\\]))) (ALT (BLOCK (ALT '\\' .))))) (RULE SingleQuotedStringCharacter (RULEMODIFIERS fragment) (BLOCK (ALT (~ (SET ['\r\n\\]))) (ALT (BLOCK (ALT '\\' .))))) (RULE WS (BLOCK (LEXER_ALT_ACTION (ALT (+ (BLOCK (ALT [ \t\r\n\u000C])))) skip))) (RULE COMMENT (BLOCK (LEXER_ALT_ACTION (ALT '/*' (* (BLOCK (ALT .))) '*/') (LEXER_ACTION_CALL channel HIDDEN)))) (RULE LINE_COMMENT (BLOCK (LEXER_ALT_ACTION (ALT '//' (* (BLOCK (ALT (~ (SET [\r\n])))))) (LEXER_ACTION_CALL channel HIDDEN))))))
+2022-09-23 23:56:42:910 grammar LogManager.java:25 after extract implicit lexer =(COMBINED_GRAMMAR Expr (@ header {
+	package antlr;
+}) (RULES (RULE sourceUnit (BLOCK (ALT (* (BLOCK (ALT pragmaDirective) (ALT importDirective) (ALT contractDefinition))) EOF))) (RULE pragmaDirective (BLOCK (ALT 'pragma' pragmaName pragmaValue ';'))) (RULE pragmaName (BLOCK (ALT identifier))) (RULE pragmaValue (BLOCK (ALT version) (ALT expression))) (RULE version (BLOCK (ALT versionConstraint (? (BLOCK (ALT versionConstraint)))))) (RULE versionOperator (BLOCK (ALT (SET '^' '~' '>=' '>' '<' '<=' '=')))) (RULE versionConstraint (BLOCK (ALT (? (BLOCK (ALT versionOperator))) VersionLiteral))) (RULE importDeclaration (BLOCK (ALT identifier (? (BLOCK (ALT 'as' identifier)))))) (RULE importDirective (BLOCK (ALT 'import' StringLiteral (? (BLOCK (ALT 'as' identifier))) ';') (ALT 'import' (BLOCK (ALT '*') (ALT identifier)) (? (BLOCK (ALT 'as' identifier))) 'from' StringLiteral ';') (ALT 'import' '{' importDeclaration (* (BLOCK (ALT ',' importDeclaration))) '}' 'from' StringLiteral ';'))) (RULE natSpec (BLOCK (ALT (SET NatSpecSingleLine NatSpecMultiLine)))) (RULE contractDefinition (BLOCK (ALT (? (BLOCK (ALT natSpec))) (SET 'contract' 'interface' 'library') identifier (? (BLOCK (ALT 'is' inheritanceSpecifier (* (BLOCK (ALT ',' inheritanceSpecifier)))))) '{' (* (BLOCK (ALT contractPart))) '}'))) (RULE inheritanceSpecifier (BLOCK (ALT userDefinedTypeName (? (BLOCK (ALT '(' (? (BLOCK (ALT expressionList))) ')')))))) (RULE contractPart (BLOCK (ALT stateVariableDeclaration) (ALT usingForDeclaration) (ALT structDefinition) (ALT constructorDefinition) (ALT modifierDefinition) (ALT functionDefinition) (ALT eventDefinition) (ALT enumDefinition))) (RULE stateVariableDeclaration (BLOCK (ALT typeName (* (BLOCK (ALT (SET PublicKeyword InternalKeyword PrivateKeyword ConstantKeyword)))) identifier (? (BLOCK (ALT '=' expression))) ';'))) (RULE usingForDeclaration (BLOCK (ALT 'using' identifier 'for' (BLOCK (ALT '*') (ALT typeName)) ';'))) (RULE structDefinition (BLOCK (ALT 'struct' identifier '{' (? (BLOCK (ALT variableDeclaration ';' (* (BLOCK (ALT variableDeclaration ';')))))) '}'))) (RULE constructorDefinition (BLOCK (ALT 'constructor' parameterList modifierList block))) (RULE modifierDefinition (BLOCK (ALT 'modifier' identifier (? (BLOCK (ALT parameterList))) block))) (RULE modifierInvocation (BLOCK (ALT identifier (? (BLOCK (ALT '(' (? (BLOCK (ALT expressionList))) ')')))))) (RULE functionDefinition (BLOCK (ALT (? (BLOCK (ALT natSpec))) 'function' (? (BLOCK (ALT identifier))) parameterList modifierList (? (BLOCK (ALT returnParameters))) (BLOCK (ALT ';') (ALT block))))) (RULE returnParameters (BLOCK (ALT 'returns' parameterList))) (RULE modifierList (BLOCK (ALT (* (BLOCK (ALT modifierInvocation) (ALT stateMutability) (ALT ExternalKeyword) (ALT PublicKeyword) (ALT InternalKeyword) (ALT PrivateKeyword)))))) (RULE eventDefinition (BLOCK (ALT (? (BLOCK (ALT natSpec))) 'event' identifier eventParameterList (? (BLOCK (ALT AnonymousKeyword))) ';'))) (RULE enumValue (BLOCK (ALT identifier))) (RULE enumDefinition (BLOCK (ALT 'enum' identifier '{' (? (BLOCK (ALT enumValue))) (* (BLOCK (ALT ',' enumValue))) '}'))) (RULE parameterList (BLOCK (ALT '(' (? (BLOCK (ALT parameter (* (BLOCK (ALT ',' parameter)))))) ')'))) (RULE parameter (BLOCK (ALT typeName (? (BLOCK (ALT storageLocation))) (? (BLOCK (ALT identifier)))))) (RULE eventParameterList (BLOCK (ALT '(' (? (BLOCK (ALT eventParameter (* (BLOCK (ALT ',' eventParameter)))))) ')'))) (RULE eventParameter (BLOCK (ALT typeName (? (BLOCK (ALT IndexedKeyword))) (? (BLOCK (ALT identifier)))))) (RULE functionTypeParameterList (BLOCK (ALT '(' (? (BLOCK (ALT functionTypeParameter (* (BLOCK (ALT ',' functionTypeParameter)))))) ')'))) (RULE functionTypeParameter (BLOCK (ALT typeName (? (BLOCK (ALT storageLocation)))))) (RULE variableDeclaration (BLOCK (ALT typeName (? (BLOCK (ALT storageLocation))) identifier))) (RULE typeName (BLOCK (ALT elementaryTypeName) (ALT userDefinedTypeName) (ALT mapping) (ALT typeName '[' (? (BLOCK (ALT expression))) ']') (ALT functionTypeName) (ALT 'address' 'payable'))) (RULE userDefinedTypeName (BLOCK (ALT identifier (* (BLOCK (ALT '.' identifier)))))) (RULE mapping (BLOCK (ALT 'mapping' '(' elementaryTypeName '=>' typeName ')'))) (RULE functionTypeName (BLOCK (ALT 'function' functionTypeParameterList (* (BLOCK (ALT InternalKeyword) (ALT ExternalKeyword) (ALT stateMutability))) (? (BLOCK (ALT 'returns' functionTypeParameterList)))))) (RULE storageLocation (BLOCK (ALT (SET 'memory' 'storage' 'calldata')))) (RULE stateMutability (BLOCK (ALT (SET PureKeyword ConstantKeyword ViewKeyword PayableKeyword)))) (RULE block (BLOCK (ALT '{' (* (BLOCK (ALT statement))) '}'))) (RULE statement (BLOCK (ALT ifStatement) (ALT whileStatement) (ALT forStatement) (ALT block) (ALT inlineAssemblyStatement) (ALT doWhileStatement) (ALT continueStatement) (ALT breakStatement) (ALT returnStatement) (ALT throwStatement) (ALT emitStatement) (ALT simpleStatement))) (RULE expressionStatement (BLOCK (ALT expression ';'))) (RULE ifStatement (BLOCK (ALT 'if' '(' expression ')' statement (? (BLOCK (ALT 'else' statement)))))) (RULE whileStatement (BLOCK (ALT 'while' '(' expression ')' statement))) (RULE simpleStatement (BLOCK (ALT (BLOCK (ALT variableDeclarationStatement) (ALT expressionStatement))))) (RULE forStatement (BLOCK (ALT 'for' '(' (BLOCK (ALT simpleStatement) (ALT ';')) (BLOCK (ALT expressionStatement) (ALT ';')) (? (BLOCK (ALT expression))) ')' statement))) (RULE inlineAssemblyStatement (BLOCK (ALT 'assembly' (? (BLOCK (ALT StringLiteral))) assemblyBlock))) (RULE doWhileStatement (BLOCK (ALT 'do' statement 'while' '(' expression ')' ';'))) (RULE continueStatement (BLOCK (ALT 'continue' ';'))) (RULE breakStatement (BLOCK (ALT 'break' ';'))) (RULE returnStatement (BLOCK (ALT 'return' (? (BLOCK (ALT expression))) ';'))) (RULE throwStatement (BLOCK (ALT 'throw' ';'))) (RULE emitStatement (BLOCK (ALT 'emit' functionCall ';'))) (RULE variableDeclarationStatement (BLOCK (ALT (BLOCK (ALT 'var' identifierList) (ALT variableDeclaration) (ALT '(' variableDeclarationList ')')) (? (BLOCK (ALT '=' expression))) ';'))) (RULE variableDeclarationList (BLOCK (ALT (? (BLOCK (ALT variableDeclaration))) (* (BLOCK (ALT ',' (? (BLOCK (ALT variableDeclaration))))))))) (RULE identifierList (BLOCK (ALT '(' (* (BLOCK (ALT (? (BLOCK (ALT identifier))) ','))) (? (BLOCK (ALT identifier))) ')'))) (RULE elementaryTypeName (BLOCK (ALT (SET 'address' 'bool' 'string' 'var' Int Uint 'byte' Byte Fixed Ufixed)))) (RULE expression (BLOCK (ALT expression (SET '++' '--')) (ALT 'new' typeName) (ALT expression '[' expression ']') (ALT expression '(' functionCallArguments ')') (ALT expression '.' identifier) (ALT '(' expression ')') (ALT (SET '++' '--') expression) (ALT (SET '+' '-') expression) (ALT (SET 'after' 'delete') expression) (ALT '!' expression) (ALT '~' expression) (ALT expression '**' expression) (ALT expression (SET '*' '/' '%') expression) (ALT expression (SET '+' '-') expression) (ALT expression (SET '<<' '>>') expression) (ALT expression '&' expression) (ALT expression '^' expression) (ALT expression '|' expression) (ALT expression (SET '<' '>' '<=' '>=') expression) (ALT expression (SET '==' '!=') expression) (ALT expression '&&' expression) (ALT expression '||' expression) (ALT expression '?' expression ':' expression) (ALT expression (SET '=' '|=' '^=' '&=' '<<=' '>>=' '+=' '-=' '*=' '/=' '%=') expression) (ALT primaryExpression))) (RULE primaryExpression (BLOCK (ALT BooleanLiteral) (ALT numberLiteral) (ALT HexLiteral) (ALT StringLiteral) (ALT identifier (? (BLOCK (ALT '[' ']')))) (ALT TypeKeyword) (ALT tupleExpression) (ALT typeNameExpression (? (BLOCK (ALT '[' ']')))))) (RULE expressionList (BLOCK (ALT expression (* (BLOCK (ALT ',' expression)))))) (RULE nameValueList (BLOCK (ALT nameValue (* (BLOCK (ALT ',' nameValue))) (? (BLOCK (ALT ',')))))) (RULE nameValue (BLOCK (ALT identifier ':' expression))) (RULE functionCallArguments (BLOCK (ALT '{' (? (BLOCK (ALT nameValueList))) '}') (ALT (? (BLOCK (ALT expressionList)))))) (RULE functionCall (BLOCK (ALT expression '(' functionCallArguments ')'))) (RULE assemblyBlock (BLOCK (ALT '{' (* (BLOCK (ALT assemblyItem))) '}'))) (RULE assemblyItem (BLOCK (ALT identifier) (ALT assemblyBlock) (ALT assemblyExpression) (ALT assemblyLocalDefinition) (ALT assemblyAssignment) (ALT assemblyStackAssignment) (ALT labelDefinition) (ALT assemblySwitch) (ALT assemblyFunctionDefinition) (ALT assemblyFor) (ALT assemblyIf) (ALT BreakKeyword) (ALT ContinueKeyword) (ALT subAssembly) (ALT numberLiteral) (ALT StringLiteral) (ALT HexLiteral))) (RULE assemblyExpression (BLOCK (ALT assemblyCall) (ALT assemblyLiteral))) (RULE assemblyCall (BLOCK (ALT (BLOCK (ALT 'return') (ALT 'address') (ALT 'byte') (ALT identifier)) (? (BLOCK (ALT '(' (? (BLOCK (ALT assemblyExpression))) (* (BLOCK (ALT ',' assemblyExpression))) ')')))))) (RULE assemblyLocalDefinition (BLOCK (ALT 'let' assemblyIdentifierOrList (? (BLOCK (ALT ':=' assemblyExpression)))))) (RULE assemblyAssignment (BLOCK (ALT assemblyIdentifierOrList ':=' assemblyExpression))) (RULE assemblyIdentifierOrList (BLOCK (ALT identifier) (ALT '(' assemblyIdentifierList ')'))) (RULE assemblyIdentifierList (BLOCK (ALT identifier (* (BLOCK (ALT ',' identifier)))))) (RULE assemblyStackAssignment (BLOCK (ALT '=:' identifier))) (RULE labelDefinition (BLOCK (ALT identifier ':'))) (RULE assemblySwitch (BLOCK (ALT 'switch' assemblyExpression (* (BLOCK (ALT assemblyCase)))))) (RULE assemblyCase (BLOCK (ALT 'case' assemblyLiteral assemblyBlock) (ALT 'default' assemblyBlock))) (RULE assemblyFunctionDefinition (BLOCK (ALT 'function' identifier '(' (? (BLOCK (ALT assemblyIdentifierList))) ')' (? (BLOCK (ALT assemblyFunctionReturns))) assemblyBlock))) (RULE assemblyFunctionReturns (BLOCK (ALT (BLOCK (ALT '->' assemblyIdentifierList))))) (RULE assemblyFor (BLOCK (ALT 'for' (BLOCK (ALT assemblyBlock) (ALT assemblyExpression)) assemblyExpression (BLOCK (ALT assemblyBlock) (ALT assemblyExpression)) assemblyBlock))) (RULE assemblyIf (BLOCK (ALT 'if' assemblyExpression assemblyBlock))) (RULE assemblyLiteral (BLOCK (ALT (SET StringLiteral DecimalNumber HexNumber HexLiteral)))) (RULE subAssembly (BLOCK (ALT 'assembly' identifier assemblyBlock))) (RULE tupleExpression (BLOCK (ALT '(' (BLOCK (ALT (? (BLOCK (ALT expression))) (* (BLOCK (ALT ',' (? (BLOCK (ALT expression)))))))) ')') (ALT '[' (? (BLOCK (ALT expression (* (BLOCK (ALT ',' expression)))))) ']'))) (RULE typeNameExpression (BLOCK (ALT elementaryTypeName) (ALT userDefinedTypeName))) (RULE numberLiteral (BLOCK (ALT (SET DecimalNumber HexNumber) (? (BLOCK (ALT NumberUnit)))))) (RULE identifier (BLOCK (ALT (SET 'from' 'calldata' Identifier))))))
+2022-09-23 23:56:42:910 grammar LogManager.java:25 lexer =(LEXER_GRAMMAR ExprLexer (@ header {
+	package antlr;
+}) (RULES (RULE T__0 (BLOCK (ALT 'pragma'))) (RULE T__1 (BLOCK (ALT ';'))) (RULE T__2 (BLOCK (ALT '^'))) (RULE T__3 (BLOCK (ALT '~'))) (RULE T__4 (BLOCK (ALT '>='))) (RULE T__5 (BLOCK (ALT '>'))) (RULE T__6 (BLOCK (ALT '<'))) (RULE T__7 (BLOCK (ALT '<='))) (RULE T__8 (BLOCK (ALT '='))) (RULE T__9 (BLOCK (ALT 'as'))) (RULE T__10 (BLOCK (ALT 'import'))) (RULE T__11 (BLOCK (ALT '*'))) (RULE T__12 (BLOCK (ALT 'from'))) (RULE T__13 (BLOCK (ALT '{'))) (RULE T__14 (BLOCK (ALT ','))) (RULE T__15 (BLOCK (ALT '}'))) (RULE T__16 (BLOCK (ALT 'contract'))) (RULE T__17 (BLOCK (ALT 'interface'))) (RULE T__18 (BLOCK (ALT 'library'))) (RULE T__19 (BLOCK (ALT 'is'))) (RULE T__20 (BLOCK (ALT '('))) (RULE T__21 (BLOCK (ALT ')'))) (RULE T__22 (BLOCK (ALT 'using'))) (RULE T__23 (BLOCK (ALT 'for'))) (RULE T__24 (BLOCK (ALT 'struct'))) (RULE T__25 (BLOCK (ALT 'constructor'))) (RULE T__26 (BLOCK (ALT 'modifier'))) (RULE T__27 (BLOCK (ALT 'function'))) (RULE T__28 (BLOCK (ALT 'returns'))) (RULE T__29 (BLOCK (ALT 'event'))) (RULE T__30 (BLOCK (ALT 'enum'))) (RULE T__31 (BLOCK (ALT '['))) (RULE T__32 (BLOCK (ALT ']'))) (RULE T__33 (BLOCK (ALT 'address'))) (RULE T__34 (BLOCK (ALT '.'))) (RULE T__35 (BLOCK (ALT 'mapping'))) (RULE T__36 (BLOCK (ALT '=>'))) (RULE T__37 (BLOCK (ALT 'memory'))) (RULE T__38 (BLOCK (ALT 'storage'))) (RULE T__39 (BLOCK (ALT 'calldata'))) (RULE T__40 (BLOCK (ALT 'if'))) (RULE T__41 (BLOCK (ALT 'else'))) (RULE T__42 (BLOCK (ALT 'while'))) (RULE T__43 (BLOCK (ALT 'assembly'))) (RULE T__44 (BLOCK (ALT 'do'))) (RULE T__45 (BLOCK (ALT 'return'))) (RULE T__46 (BLOCK (ALT 'throw'))) (RULE T__47 (BLOCK (ALT 'emit'))) (RULE T__48 (BLOCK (ALT 'var'))) (RULE T__49 (BLOCK (ALT 'bool'))) (RULE T__50 (BLOCK (ALT 'string'))) (RULE T__51 (BLOCK (ALT 'byte'))) (RULE T__52 (BLOCK (ALT '++'))) (RULE T__53 (BLOCK (ALT '--'))) (RULE T__54 (BLOCK (ALT 'new'))) (RULE T__55 (BLOCK (ALT '+'))) (RULE T__56 (BLOCK (ALT '-'))) (RULE T__57 (BLOCK (ALT 'after'))) (RULE T__58 (BLOCK (ALT 'delete'))) (RULE T__59 (BLOCK (ALT '!'))) (RULE T__60 (BLOCK (ALT '**'))) (RULE T__61 (BLOCK (ALT '/'))) (RULE T__62 (BLOCK (ALT '%'))) (RULE T__63 (BLOCK (ALT '<<'))) (RULE T__64 (BLOCK (ALT '>>'))) (RULE T__65 (BLOCK (ALT '&'))) (RULE T__66 (BLOCK (ALT '|'))) (RULE T__67 (BLOCK (ALT '=='))) (RULE T__68 (BLOCK (ALT '!='))) (RULE T__69 (BLOCK (ALT '&&'))) (RULE T__70 (BLOCK (ALT '||'))) (RULE T__71 (BLOCK (ALT '?'))) (RULE T__72 (BLOCK (ALT ':'))) (RULE T__73 (BLOCK (ALT '|='))) (RULE T__74 (BLOCK (ALT '^='))) (RULE T__75 (BLOCK (ALT '&='))) (RULE T__76 (BLOCK (ALT '<<='))) (RULE T__77 (BLOCK (ALT '>>='))) (RULE T__78 (BLOCK (ALT '+='))) (RULE T__79 (BLOCK (ALT '-='))) (RULE T__80 (BLOCK (ALT '*='))) (RULE T__81 (BLOCK (ALT '/='))) (RULE T__82 (BLOCK (ALT '%='))) (RULE T__83 (BLOCK (ALT 'let'))) (RULE T__84 (BLOCK (ALT ':='))) (RULE T__85 (BLOCK (ALT '=:'))) (RULE T__86 (BLOCK (ALT 'switch'))) (RULE T__87 (BLOCK (ALT 'case'))) (RULE T__88 (BLOCK (ALT 'default'))) (RULE T__89 (BLOCK (ALT '->'))) (RULE NatSpecSingleLine (BLOCK (ALT (+ (BLOCK (ALT '///' (* (BLOCK (ALT .))) [\r\n])))))) (RULE NatSpecMultiLine (BLOCK (ALT '/**' (* (BLOCK (ALT .))) '*/'))) (RULE Int (BLOCK (ALT 'int') (ALT 'int8') (ALT 'int16') (ALT 'int24') (ALT 'int32') (ALT 'int40') (ALT 'int48') (ALT 'int56') (ALT 'int64') (ALT 'int72') (ALT 'int80') (ALT 'int88') (ALT 'int96') (ALT 'int104') (ALT 'int112') (ALT 'int120') (ALT 'int128') (ALT 'int136') (ALT 'int144') (ALT 'int152') (ALT 'int160') (ALT 'int168') (ALT 'int176') (ALT 'int184') (ALT 'int192') (ALT 'int200') (ALT 'int208') (ALT 'int216') (ALT 'int224') (ALT 'int232') (ALT 'int240') (ALT 'int248') (ALT 'int256'))) (RULE Uint (BLOCK (ALT 'uint') (ALT 'uint8') (ALT 'uint16') (ALT 'uint24') (ALT 'uint32') (ALT 'uint40') (ALT 'uint48') (ALT 'uint56') (ALT 'uint64') (ALT 'uint72') (ALT 'uint80') (ALT 'uint88') (ALT 'uint96') (ALT 'uint104') (ALT 'uint112') (ALT 'uint120') (ALT 'uint128') (ALT 'uint136') (ALT 'uint144') (ALT 'uint152') (ALT 'uint160') (ALT 'uint168') (ALT 'uint176') (ALT 'uint184') (ALT 'uint192') (ALT 'uint200') (ALT 'uint208') (ALT 'uint216') (ALT 'uint224') (ALT 'uint232') (ALT 'uint240') (ALT 'uint248') (ALT 'uint256'))) (RULE Byte (BLOCK (ALT 'bytes') (ALT 'bytes1') (ALT 'bytes2') (ALT 'bytes3') (ALT 'bytes4') (ALT 'bytes5') (ALT 'bytes6') (ALT 'bytes7') (ALT 'bytes8') (ALT 'bytes9') (ALT 'bytes10') (ALT 'bytes11') (ALT 'bytes12') (ALT 'bytes13') (ALT 'bytes14') (ALT 'bytes15') (ALT 'bytes16') (ALT 'bytes17') (ALT 'bytes18') (ALT 'bytes19') (ALT 'bytes20') (ALT 'bytes21') (ALT 'bytes22') (ALT 'bytes23') (ALT 'bytes24') (ALT 'bytes25') (ALT 'bytes26') (ALT 'bytes27') (ALT 'bytes28') (ALT 'bytes29') (ALT 'bytes30') (ALT 'bytes31') (ALT 'bytes32'))) (RULE Fixed (BLOCK (ALT 'fixed') (ALT (BLOCK (ALT 'fixed' (+ (BLOCK (ALT [0-9]))) 'x' (+ (BLOCK (ALT [0-9])))))))) (RULE Ufixed (BLOCK (ALT 'ufixed') (ALT (BLOCK (ALT 'ufixed' (+ (BLOCK (ALT [0-9]))) 'x' (+ (BLOCK (ALT [0-9])))))))) (RULE VersionLiteral (BLOCK (ALT (+ (BLOCK (ALT [0-9]))) '.' (+ (BLOCK (ALT [0-9]))) '.' (+ (BLOCK (ALT [0-9])))))) (RULE BooleanLiteral (BLOCK (ALT 'true') (ALT 'false'))) (RULE DecimalNumber (BLOCK (ALT (BLOCK (ALT DecimalDigits) (ALT (BLOCK (ALT (? (BLOCK (ALT DecimalDigits))) '.' DecimalDigits)))) (? (BLOCK (ALT [eE] DecimalDigits)))))) (RULE DecimalDigits (RULEMODIFIERS fragment) (BLOCK (ALT [0-9] (* (BLOCK (ALT (? (BLOCK (ALT '_'))) [0-9])))))) (RULE HexNumber (BLOCK (ALT '0' [xX] HexDigits))) (RULE HexDigits (RULEMODIFIERS fragment) (BLOCK (ALT HexCharacter (* (BLOCK (ALT (? (BLOCK (ALT '_'))) HexCharacter)))))) (RULE NumberUnit (BLOCK (ALT 'wei') (ALT 'szabo') (ALT 'finney') (ALT 'ether') (ALT 'seconds') (ALT 'minutes') (ALT 'hours') (ALT 'days') (ALT 'weeks') (ALT 'years'))) (RULE HexLiteral (BLOCK (ALT 'hex' (BLOCK (ALT '"' (* (BLOCK (ALT HexPair))) '"') (ALT '\'' (* (BLOCK (ALT HexPair))) '\''))))) (RULE HexPair (RULEMODIFIERS fragment) (BLOCK (ALT HexCharacter HexCharacter))) (RULE HexCharacter (RULEMODIFIERS fragment) (BLOCK (ALT [0-9A-Fa-f]))) (RULE ReservedKeyword (BLOCK (ALT 'abstract') (ALT 'after') (ALT 'case') (ALT 'catch') (ALT 'default') (ALT 'final') (ALT 'in') (ALT 'inline') (ALT 'let') (ALT 'match') (ALT 'null') (ALT 'of') (ALT 'relocatable') (ALT 'static') (ALT 'switch') (ALT 'try') (ALT 'typeof'))) (RULE AnonymousKeyword (BLOCK (ALT 'anonymous'))) (RULE BreakKeyword (BLOCK (ALT 'break'))) (RULE ConstantKeyword (BLOCK (ALT 'constant'))) (RULE ContinueKeyword (BLOCK (ALT 'continue'))) (RULE ExternalKeyword (BLOCK (ALT 'external'))) (RULE IndexedKeyword (BLOCK (ALT 'indexed'))) (RULE InternalKeyword (BLOCK (ALT 'internal'))) (RULE PayableKeyword (BLOCK (ALT 'payable'))) (RULE PrivateKeyword (BLOCK (ALT 'private'))) (RULE PublicKeyword (BLOCK (ALT 'public'))) (RULE PureKeyword (BLOCK (ALT 'pure'))) (RULE TypeKeyword (BLOCK (ALT 'type'))) (RULE ViewKeyword (BLOCK (ALT 'view'))) (RULE Identifier (BLOCK (ALT IdentifierStart (* (BLOCK (ALT IdentifierPart)))))) (RULE IdentifierStart (RULEMODIFIERS fragment) (BLOCK (ALT [a-zA-Z$_]))) (RULE IdentifierPart (RULEMODIFIERS fragment) (BLOCK (ALT [a-zA-Z0-9$_]))) (RULE StringLiteral (BLOCK (ALT '"' (* (BLOCK (ALT DoubleQuotedStringCharacter))) '"') (ALT '\'' (* (BLOCK (ALT SingleQuotedStringCharacter))) '\''))) (RULE DoubleQuotedStringCharacter (RULEMODIFIERS fragment) (BLOCK (ALT (~ (SET ["\r\n\\]))) (ALT (BLOCK (ALT '\\' .))))) (RULE SingleQuotedStringCharacter (RULEMODIFIERS fragment) (BLOCK (ALT (~ (SET ['\r\n\\]))) (ALT (BLOCK (ALT '\\' .))))) (RULE WS (BLOCK (LEXER_ALT_ACTION (ALT (+ (BLOCK (ALT [ \t\r\n\u000C])))) skip))) (RULE COMMENT (BLOCK (LEXER_ALT_ACTION (ALT '/*' (* (BLOCK (ALT .))) '*/') (LEXER_ACTION_CALL channel HIDDEN)))) (RULE LINE_COMMENT (BLOCK (LEXER_ALT_ACTION (ALT '//' (* (BLOCK (ALT (~ (SET [\r\n])))))) (LEXER_ACTION_CALL channel HIDDEN))))))
+2022-09-23 23:56:43:036 action-translator LogManager.java:25 translate 
+	package antlr;
+
+2022-09-23 23:56:43:090 left-recursion LogManager.java:25 typeName
+    :   ( {} elementaryTypeName<tokenIndex=749> 
+        | userDefinedTypeName<tokenIndex=753> 
+        | mapping<tokenIndex=757> 
+        | functionTypeName<tokenIndex=772> 
+        | 'address'<tokenIndex=776> 'payable'<tokenIndex=778> 
+        )
+        (
+          {precpred(_ctx, 3)}?<p=3> '['<tokenIndex=763> expression<tokenIndex=765>? ']'<tokenIndex=768>
+        )*
+    ;
+2022-09-23 23:56:43:094 grammar LogManager.java:25 added: (RULE typeName (BLOCK (ALT (BLOCK (ALT {} (elementaryTypeName (ELEMENT_OPTIONS (= tokenIndex 749)))) (ALT (userDefinedTypeName (ELEMENT_OPTIONS (= tokenIndex 753)))) (ALT (mapping (ELEMENT_OPTIONS (= tokenIndex 757)))) (ALT (functionTypeName (ELEMENT_OPTIONS (= tokenIndex 772)))) (ALT ('address' (ELEMENT_OPTIONS (= tokenIndex 776))) ('payable' (ELEMENT_OPTIONS (= tokenIndex 778))))) (* (BLOCK (ALT ({precpred(_ctx, 3)}? (ELEMENT_OPTIONS (= p 3))) ('[' (ELEMENT_OPTIONS (= tokenIndex 763))) (? (BLOCK (ALT (expression (ELEMENT_OPTIONS (= tokenIndex 765)))))) (']' (ELEMENT_OPTIONS (= tokenIndex 768)))))))))
+2022-09-23 23:56:43:099 left-recursion LogManager.java:25 expression
+    :   ( {} 'new'<tokenIndex=1736> typeName<tokenIndex=1738> 
+        | '('<tokenIndex=1770> expression<tokenIndex=1772> ')'<tokenIndex=1774> 
+        | ('++'<tokenIndex=1779> | '--'<tokenIndex=1783>) expression<tokenIndex=1786,p=19> 
+        | ('+'<tokenIndex=1791> | '-'<tokenIndex=1795>) expression<tokenIndex=1798,p=18> 
+        | ('after'<tokenIndex=1803> | 'delete'<tokenIndex=1807>) expression<tokenIndex=1810,p=17> 
+        | '!'<tokenIndex=1814> expression<tokenIndex=1816,p=16> 
+        | '~'<tokenIndex=1820> expression<tokenIndex=1822,p=15> 
+        | primaryExpression<tokenIndex=2018> 
+        )
+        (
+          {precpred(_ctx, 14)}?<p=14> '**'<tokenIndex=1828> expression<tokenIndex=1830,p=15>
+                  | {precpred(_ctx, 13)}?<p=13> ('*'<tokenIndex=1837> | '/'<tokenIndex=1841> | '%'<tokenIndex=1845>) expression<tokenIndex=1848,p=14>
+                  | {precpred(_ctx, 12)}?<p=12> ('+'<tokenIndex=1855> | '-'<tokenIndex=1859>) expression<tokenIndex=1862,p=13>
+                  | {precpred(_ctx, 11)}?<p=11> ('<<'<tokenIndex=1869> | '>>'<tokenIndex=1873>) expression<tokenIndex=1876,p=12>
+                  | {precpred(_ctx, 10)}?<p=10> '&'<tokenIndex=1882> expression<tokenIndex=1884,p=11>
+                  | {precpred(_ctx, 9)}?<p=9> '^'<tokenIndex=1890> expression<tokenIndex=1892,p=10>
+                  | {precpred(_ctx, 8)}?<p=8> '|'<tokenIndex=1898> expression<tokenIndex=1900,p=9>
+                  | {precpred(_ctx, 7)}?<p=7> ('<'<tokenIndex=1907> | '>'<tokenIndex=1911> | '<='<tokenIndex=1915> | '>='<tokenIndex=1919>) expression<tokenIndex=1922,p=8>
+                  | {precpred(_ctx, 6)}?<p=6> ('=='<tokenIndex=1929> | '!='<tokenIndex=1933>) expression<tokenIndex=1936,p=7>
+                  | {precpred(_ctx, 5)}?<p=5> '&&'<tokenIndex=1942> expression<tokenIndex=1944,p=6>
+                  | {precpred(_ctx, 4)}?<p=4> '||'<tokenIndex=1950> expression<tokenIndex=1952,p=5>
+                  | {precpred(_ctx, 3)}?<p=3> '?'<tokenIndex=1958> expression<tokenIndex=1960> ':'<tokenIndex=1962> expression<tokenIndex=1964,p=4>
+                  | {precpred(_ctx, 2)}?<p=2> ('='<tokenIndex=1971> | '|='<tokenIndex=1975> | '^='<tokenIndex=1979> | '&='<tokenIndex=1983> | '<<='<tokenIndex=1987> | '>>='<tokenIndex=1991> | '+='<tokenIndex=1995> | '-='<tokenIndex=1999> | '*='<tokenIndex=2003> | '/='<tokenIndex=2007> | '%='<tokenIndex=2011>) expression<tokenIndex=2014,p=3>
+                  | {precpred(_ctx, 25)}?<p=25> ('++'<tokenIndex=1727> | '--'<tokenIndex=1731>)
+                  | {precpred(_ctx, 23)}?<p=23> '['<tokenIndex=1744> expression<tokenIndex=1746> ']'<tokenIndex=1748>
+                  | {precpred(_ctx, 22)}?<p=22> '('<tokenIndex=1754> functionCallArguments<tokenIndex=1756> ')'<tokenIndex=1758>
+                  | {precpred(_ctx, 21)}?<p=21> '.'<tokenIndex=1764> identifier<tokenIndex=1766>
+        )*
+    ;
+2022-09-23 23:56:43:111 grammar LogManager.java:25 added: (RULE expression (BLOCK (ALT (BLOCK (ALT {} ('new' (ELEMENT_OPTIONS (= tokenIndex 1736))) (typeName (ELEMENT_OPTIONS (= tokenIndex 1738)))) (ALT ('(' (ELEMENT_OPTIONS (= tokenIndex 1770))) (expression (ELEMENT_OPTIONS (= tokenIndex 1772))) (')' (ELEMENT_OPTIONS (= tokenIndex 1774)))) (ALT (SET ('++' (ELEMENT_OPTIONS (= tokenIndex 1779))) ('--' (ELEMENT_OPTIONS (= tokenIndex 1783)))) (expression (ELEMENT_OPTIONS (= tokenIndex 1786) (= p 19)))) (ALT (SET ('+' (ELEMENT_OPTIONS (= tokenIndex 1791))) ('-' (ELEMENT_OPTIONS (= tokenIndex 1795)))) (expression (ELEMENT_OPTIONS (= tokenIndex 1798) (= p 18)))) (ALT (SET ('after' (ELEMENT_OPTIONS (= tokenIndex 1803))) ('delete' (ELEMENT_OPTIONS (= tokenIndex 1807)))) (expression (ELEMENT_OPTIONS (= tokenIndex 1810) (= p 17)))) (ALT ('!' (ELEMENT_OPTIONS (= tokenIndex 1814))) (expression (ELEMENT_OPTIONS (= tokenIndex 1816) (= p 16)))) (ALT ('~' (ELEMENT_OPTIONS (= tokenIndex 1820))) (expression (ELEMENT_OPTIONS (= tokenIndex 1822) (= p 15)))) (ALT (primaryExpression (ELEMENT_OPTIONS (= tokenIndex 2018))))) (* (BLOCK (ALT ({precpred(_ctx, 14)}? (ELEMENT_OPTIONS (= p 14))) ('**' (ELEMENT_OPTIONS (= tokenIndex 1828))) (expression (ELEMENT_OPTIONS (= tokenIndex 1830) (= p 15)))) (ALT ({precpred(_ctx, 13)}? (ELEMENT_OPTIONS (= p 13))) (SET ('*' (ELEMENT_OPTIONS (= tokenIndex 1837))) ('/' (ELEMENT_OPTIONS (= tokenIndex 1841))) ('%' (ELEMENT_OPTIONS (= tokenIndex 1845)))) (expression (ELEMENT_OPTIONS (= tokenIndex 1848) (= p 14)))) (ALT ({precpred(_ctx, 12)}? (ELEMENT_OPTIONS (= p 12))) (SET ('+' (ELEMENT_OPTIONS (= tokenIndex 1855))) ('-' (ELEMENT_OPTIONS (= tokenIndex 1859)))) (expression (ELEMENT_OPTIONS (= tokenIndex 1862) (= p 13)))) (ALT ({precpred(_ctx, 11)}? (ELEMENT_OPTIONS (= p 11))) (SET ('<<' (ELEMENT_OPTIONS (= tokenIndex 1869))) ('>>' (ELEMENT_OPTIONS (= tokenIndex 1873)))) (expression (ELEMENT_OPTIONS (= tokenIndex 1876) (= p 12)))) (ALT ({precpred(_ctx, 10)}? (ELEMENT_OPTIONS (= p 10))) ('&' (ELEMENT_OPTIONS (= tokenIndex 1882))) (expression (ELEMENT_OPTIONS (= tokenIndex 1884) (= p 11)))) (ALT ({precpred(_ctx, 9)}? (ELEMENT_OPTIONS (= p 9))) ('^' (ELEMENT_OPTIONS (= tokenIndex 1890))) (expression (ELEMENT_OPTIONS (= tokenIndex 1892) (= p 10)))) (ALT ({precpred(_ctx, 8)}? (ELEMENT_OPTIONS (= p 8))) ('|' (ELEMENT_OPTIONS (= tokenIndex 1898))) (expression (ELEMENT_OPTIONS (= tokenIndex 1900) (= p 9)))) (ALT ({precpred(_ctx, 7)}? (ELEMENT_OPTIONS (= p 7))) (SET ('<' (ELEMENT_OPTIONS (= tokenIndex 1907))) ('>' (ELEMENT_OPTIONS (= tokenIndex 1911))) ('<=' (ELEMENT_OPTIONS (= tokenIndex 1915))) ('>=' (ELEMENT_OPTIONS (= tokenIndex 1919)))) (expression (ELEMENT_OPTIONS (= tokenIndex 1922) (= p 8)))) (ALT ({precpred(_ctx, 6)}? (ELEMENT_OPTIONS (= p 6))) (SET ('==' (ELEMENT_OPTIONS (= tokenIndex 1929))) ('!=' (ELEMENT_OPTIONS (= tokenIndex 1933)))) (expression (ELEMENT_OPTIONS (= tokenIndex 1936) (= p 7)))) (ALT ({precpred(_ctx, 5)}? (ELEMENT_OPTIONS (= p 5))) ('&&' (ELEMENT_OPTIONS (= tokenIndex 1942))) (expression (ELEMENT_OPTIONS (= tokenIndex 1944) (= p 6)))) (ALT ({precpred(_ctx, 4)}? (ELEMENT_OPTIONS (= p 4))) ('||' (ELEMENT_OPTIONS (= tokenIndex 1950))) (expression (ELEMENT_OPTIONS (= tokenIndex 1952) (= p 5)))) (ALT ({precpred(_ctx, 3)}? (ELEMENT_OPTIONS (= p 3))) ('?' (ELEMENT_OPTIONS (= tokenIndex 1958))) (expression (ELEMENT_OPTIONS (= tokenIndex 1960))) (':' (ELEMENT_OPTIONS (= tokenIndex 1962))) (expression (ELEMENT_OPTIONS (= tokenIndex 1964) (= p 4)))) (ALT ({precpred(_ctx, 2)}? (ELEMENT_OPTIONS (= p 2))) (SET ('=' (ELEMENT_OPTIONS (= tokenIndex 1971))) ('|=' (ELEMENT_OPTIONS (= tokenIndex 1975))) ('^=' (ELEMENT_OPTIONS (= tokenIndex 1979))) ('&=' (ELEMENT_OPTIONS (= tokenIndex 1983))) ('<<=' (ELEMENT_OPTIONS (= tokenIndex 1987))) ('>>=' (ELEMENT_OPTIONS (= tokenIndex 1991))) ('+=' (ELEMENT_OPTIONS (= tokenIndex 1995))) ('-=' (ELEMENT_OPTIONS (= tokenIndex 1999))) ('*=' (ELEMENT_OPTIONS (= tokenIndex 2003))) ('/=' (ELEMENT_OPTIONS (= tokenIndex 2007))) ('%=' (ELEMENT_OPTIONS (= tokenIndex 2011)))) (expression (ELEMENT_OPTIONS (= tokenIndex 2014) (= p 3)))) (ALT ({precpred(_ctx, 25)}? (ELEMENT_OPTIONS (= p 25))) (SET ('++' (ELEMENT_OPTIONS (= tokenIndex 1727))) ('--' (ELEMENT_OPTIONS (= tokenIndex 1731))))) (ALT ({precpred(_ctx, 23)}? (ELEMENT_OPTIONS (= p 23))) ('[' (ELEMENT_OPTIONS (= tokenIndex 1744))) (expression (ELEMENT_OPTIONS (= tokenIndex 1746))) (']' (ELEMENT_OPTIONS (= tokenIndex 1748)))) (ALT ({precpred(_ctx, 22)}? (ELEMENT_OPTIONS (= p 22))) ('(' (ELEMENT_OPTIONS (= tokenIndex 1754))) (functionCallArguments (ELEMENT_OPTIONS (= tokenIndex 1756))) (')' (ELEMENT_OPTIONS (= tokenIndex 1758)))) (ALT ({precpred(_ctx, 21)}? (ELEMENT_OPTIONS (= p 21))) ('.' (ELEMENT_OPTIONS (= tokenIndex 1764))) (identifier (ELEMENT_OPTIONS (= tokenIndex 1766)))))))))
+2022-09-23 23:56:43:114 semantics LogManager.java:25 tokens={EOF=-1, T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, T__22=23, T__23=24, T__24=25, T__25=26, T__26=27, T__27=28, T__28=29, T__29=30, T__30=31, T__31=32, T__32=33, T__33=34, T__34=35, T__35=36, T__36=37, T__37=38, T__38=39, T__39=40, T__40=41, T__41=42, T__42=43, T__43=44, T__44=45, T__45=46, T__46=47, T__47=48, T__48=49, T__49=50, T__50=51, T__51=52, T__52=53, T__53=54, T__54=55, T__55=56, T__56=57, T__57=58, T__58=59, T__59=60, T__60=61, T__61=62, T__62=63, T__63=64, T__64=65, T__65=66, T__66=67, T__67=68, T__68=69, T__69=70, T__70=71, T__71=72, T__72=73, T__73=74, T__74=75, T__75=76, T__76=77, T__77=78, T__78=79, T__79=80, T__80=81, T__81=82, T__82=83, T__83=84, T__84=85, T__85=86, T__86=87, T__87=88, T__88=89, T__89=90, NatSpecSingleLine=91, NatSpecMultiLine=92, Int=93, Uint=94, Byte=95, Fixed=96, Ufixed=97, VersionLiteral=98, BooleanLiteral=99, DecimalNumber=100, HexNumber=101, NumberUnit=102, HexLiteral=103, ReservedKeyword=104, AnonymousKeyword=105, BreakKeyword=106, ConstantKeyword=107, ContinueKeyword=108, ExternalKeyword=109, IndexedKeyword=110, InternalKeyword=111, PayableKeyword=112, PrivateKeyword=113, PublicKeyword=114, PureKeyword=115, TypeKeyword=116, ViewKeyword=117, Identifier=118, StringLiteral=119, WS=120, COMMENT=121, LINE_COMMENT=122}
+2022-09-23 23:56:43:114 semantics LogManager.java:25 strings={'pragma'=1, ';'=2, '^'=3, '~'=4, '>='=5, '>'=6, '<'=7, '<='=8, '='=9, 'as'=10, 'import'=11, '*'=12, 'from'=13, '{'=14, ','=15, '}'=16, 'contract'=17, 'interface'=18, 'library'=19, 'is'=20, '('=21, ')'=22, 'using'=23, 'for'=24, 'struct'=25, 'constructor'=26, 'modifier'=27, 'function'=28, 'returns'=29, 'event'=30, 'enum'=31, '['=32, ']'=33, 'address'=34, '.'=35, 'mapping'=36, '=>'=37, 'memory'=38, 'storage'=39, 'calldata'=40, 'if'=41, 'else'=42, 'while'=43, 'assembly'=44, 'do'=45, 'return'=46, 'throw'=47, 'emit'=48, 'var'=49, 'bool'=50, 'string'=51, 'byte'=52, '++'=53, '--'=54, 'new'=55, '+'=56, '-'=57, 'after'=58, 'delete'=59, '!'=60, '**'=61, '/'=62, '%'=63, '<<'=64, '>>'=65, '&'=66, '|'=67, '=='=68, '!='=69, '&&'=70, '||'=71, '?'=72, ':'=73, '|='=74, '^='=75, '&='=76, '<<='=77, '>>='=78, '+='=79, '-='=80, '*='=81, '/='=82, '%='=83, 'let'=84, ':='=85, '=:'=86, 'switch'=87, 'case'=88, 'default'=89, '->'=90, 'anonymous'=105, 'break'=106, 'constant'=107, 'continue'=108, 'external'=109, 'indexed'=110, 'internal'=111, 'payable'=112, 'private'=113, 'public'=114, 'pure'=115, 'type'=116, 'view'=117}
+2022-09-23 23:56:43:131 LL1 LogManager.java:25 
+DECISION 0 in rule sourceUnit
+2022-09-23 23:56:43:131 LL1 LogManager.java:25 look=[1, 11, {17..19, 91..92}]
+2022-09-23 23:56:43:131 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:131 LL1 LogManager.java:25 
+DECISION 1 in rule sourceUnit
+2022-09-23 23:56:43:131 LL1 LogManager.java:25 look=[{1, 11, 17..19, 91..92}, <EOF>]
+2022-09-23 23:56:43:131 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:131 LL1 LogManager.java:25 
+DECISION 2 in rule pragmaValue
+2022-09-23 23:56:43:131 LL1 LogManager.java:25 look=[{3..9, 98}, {4, 13, 21, 32, 34, 40, 49..60, 93..97, 99..101, 103, 116, 118..119}]
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 LL(1)? false
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 
+DECISION 3 in rule version
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 look=[{3..9, 98}, 2]
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 
+DECISION 4 in rule versionConstraint
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 look=[{3..9}, 98]
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 
+DECISION 5 in rule importDeclaration
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 look=[10, {15..16}]
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 
+DECISION 6 in rule importDirective
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 look=[10, 2]
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 
+DECISION 7 in rule importDirective
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 look=[12, {13, 40, 118}]
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 
+DECISION 8 in rule importDirective
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 look=[10, 13]
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 
+DECISION 9 in rule importDirective
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 look=[15, 16]
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 
+DECISION 10 in rule importDirective
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 look=[11, 11, 11]
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 LL(1)? false
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 
+DECISION 11 in rule contractDefinition
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 look=[{91..92}, {17..19}]
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 
+DECISION 12 in rule contractDefinition
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 look=[15, 14]
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 
+DECISION 13 in rule contractDefinition
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 look=[20, 14]
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 
+DECISION 14 in rule contractDefinition
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 look=[{13, 23, 25..28, 30..31, 34, 36, 40, 49..52, 91..97, 118}, 16]
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 
+DECISION 15 in rule inheritanceSpecifier
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 look=[{4, 13, 21, 32, 34, 40, 49..60, 93..97, 99..101, 103, 116, 118..119}, 22]
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 
+DECISION 16 in rule inheritanceSpecifier
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 look=[21, {14..15}]
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 
+DECISION 17 in rule contractPart
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 look=[{13, 28, 34, 36, 40, 49..52, 93..97, 118}, 23, 25, 26, 27, {28, 91..92}, {30, 91..92}, 31]
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 LL(1)? false
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 
+DECISION 18 in rule stateVariableDeclaration
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 look=[{107, 111, 113..114}, {13, 40, 118}]
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 
+DECISION 19 in rule stateVariableDeclaration
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 look=[9, 2]
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 
+DECISION 20 in rule usingForDeclaration
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 look=[12, {13, 28, 34, 36, 40, 49..52, 93..97, 118}]
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 
+DECISION 21 in rule structDefinition
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 look=[{13, 28, 34, 36, 40, 49..52, 93..97, 118}, 16]
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 
+DECISION 22 in rule structDefinition
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 look=[{13, 28, 34, 36, 40, 49..52, 93..97, 118}, 16]
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 
+DECISION 23 in rule modifierDefinition
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 look=[21, 14]
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 
+DECISION 24 in rule modifierInvocation
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 look=[{4, 13, 21, 32, 34, 40, 49..60, 93..97, 99..101, 103, 116, 118..119}, 22]
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:132 LL1 LogManager.java:25 
+DECISION 25 in rule modifierInvocation
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 look=[21, {2, 13..14, 29, 40, 107, 109, 111..115, 117..118}]
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 
+DECISION 26 in rule functionDefinition
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 look=[{91..92}, 28]
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 
+DECISION 27 in rule functionDefinition
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 look=[{13, 40, 118}, 21]
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 
+DECISION 28 in rule functionDefinition
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 look=[29, {2, 14}]
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 
+DECISION 29 in rule functionDefinition
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 look=[2, 14]
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 
+DECISION 30 in rule modifierList
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 look=[{13, 40, 118}, {107, 112, 115, 117}, 109, 114, 111, 113]
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 
+DECISION 31 in rule modifierList
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 look=[{13, 40, 107, 109, 111..115, 117..118}, {2, 14, 29}]
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 
+DECISION 32 in rule eventDefinition
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 look=[{91..92}, 30]
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 
+DECISION 33 in rule eventDefinition
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 look=[105, 2]
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 
+DECISION 34 in rule enumDefinition
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 look=[{13, 40, 118}, {15..16}]
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 
+DECISION 35 in rule enumDefinition
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 look=[15, 16]
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 
+DECISION 36 in rule parameterList
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 look=[15, 22]
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 
+DECISION 37 in rule parameterList
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 look=[{13, 28, 34, 36, 40, 49..52, 93..97, 118}, 22]
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 
+DECISION 38 in rule parameter
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 look=[{38..40}, {13, 15, 22, 40, 118}]
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 LL(1)? false
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 
+DECISION 39 in rule parameter
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 look=[{13, 40, 118}, {15, 22}]
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 
+DECISION 40 in rule eventParameterList
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 look=[15, 22]
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 
+DECISION 41 in rule eventParameterList
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 look=[{13, 28, 34, 36, 40, 49..52, 93..97, 118}, 22]
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 
+DECISION 42 in rule eventParameter
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 look=[110, {13, 15, 22, 40, 118}]
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 
+DECISION 43 in rule eventParameter
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 look=[{13, 40, 118}, {15, 22}]
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 
+DECISION 44 in rule functionTypeParameterList
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 look=[15, 22]
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:133 LL1 LogManager.java:25 
+DECISION 45 in rule functionTypeParameterList
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 look=[{13, 28, 34, 36, 40, 49..52, 93..97, 118}, 22]
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 
+DECISION 46 in rule functionTypeParameter
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 look=[{38..40}, {15, 22}]
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 
+DECISION 47 in rule variableDeclaration
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 look=[{38..40}, {13, 40, 118}]
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 LL(1)? false
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 
+DECISION 48 in rule typeName
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 look=[{34, 49..52, 93..97}, {13, 40, 118}, 36, 28, 34]
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 LL(1)? false
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 
+DECISION 49 in rule typeName
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 look=[{4, 13, 21, 32, 34, 40, 49..60, 93..97, 99..101, 103, 116, 118..119}, 33]
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 
+DECISION 50 in rule typeName
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 look=[null, null]
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 LL(1)? false
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 
+DECISION 51 in rule userDefinedTypeName
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 look=[35, null]
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 LL(1)? false
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 
+DECISION 52 in rule functionTypeName
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 look=[111, 109, {107, 112, 115, 117}]
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 
+DECISION 53 in rule functionTypeName
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 look=[{107, 109, 111..112, 115, 117}, null]
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 LL(1)? false
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 
+DECISION 54 in rule functionTypeName
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 look=[29, null]
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 LL(1)? false
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 
+DECISION 55 in rule block
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 look=[{4, 13..14, 21, 24, 28, 32, 34, 36, 40..41, 43..60, 93..97, 99..101, 103, 106, 108, 116, 118..119}, 16]
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 
+DECISION 56 in rule statement
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 look=[41, 43, 24, 14, 44, 45, 108, 106, 46, 47, 48, {4, 13, 21, 28, 32, 34, 36, 40, 49..60, 93..97, 99..101, 103, 116, 118..119}]
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 
+DECISION 57 in rule ifStatement
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 look=[42, {4, 13..14, 16, 21, 24, 28, 32, 34, 36, 40..60, 93..97, 99..101, 103, 106, 108, 116, 118..119}]
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 LL(1)? false
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 
+DECISION 58 in rule simpleStatement
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 look=[{13, 21, 28, 34, 36, 40, 49..52, 93..97, 118}, {4, 13, 21, 32, 34, 40, 49..60, 93..97, 99..101, 103, 116, 118..119}]
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 LL(1)? false
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 
+DECISION 59 in rule forStatement
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 look=[{4, 13, 21, 28, 32, 34, 36, 40, 49..60, 93..97, 99..101, 103, 116, 118..119}, 2]
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:134 LL1 LogManager.java:25 
+DECISION 60 in rule forStatement
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 look=[{4, 13, 21, 32, 34, 40, 49..60, 93..97, 99..101, 103, 116, 118..119}, 2]
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 
+DECISION 61 in rule forStatement
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 look=[{4, 13, 21, 32, 34, 40, 49..60, 93..97, 99..101, 103, 116, 118..119}, 22]
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 
+DECISION 62 in rule inlineAssemblyStatement
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 look=[119, 14]
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 
+DECISION 63 in rule returnStatement
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 look=[{4, 13, 21, 32, 34, 40, 49..60, 93..97, 99..101, 103, 116, 118..119}, 2]
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 
+DECISION 64 in rule variableDeclarationStatement
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 look=[49, {13, 28, 34, 36, 40, 49..52, 93..97, 118}, 21]
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 LL(1)? false
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 
+DECISION 65 in rule variableDeclarationStatement
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 look=[9, 2]
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 
+DECISION 66 in rule variableDeclarationList
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 look=[{13, 28, 34, 36, 40, 49..52, 93..97, 118}, {15, 22}]
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 
+DECISION 67 in rule variableDeclarationList
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 look=[{13, 28, 34, 36, 40, 49..52, 93..97, 118}, {15, 22}]
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 
+DECISION 68 in rule variableDeclarationList
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 look=[15, 22]
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 
+DECISION 69 in rule identifierList
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 look=[{13, 40, 118}, 15]
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 
+DECISION 70 in rule identifierList
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 look=[{13, 15, 40, 118}, {13, 22, 40, 118}]
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 LL(1)? false
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 
+DECISION 71 in rule identifierList
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 look=[{13, 40, 118}, 22]
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 
+DECISION 72 in rule expression
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 look=[55, 21, {53..54}, {56..57}, {58..59}, 60, 4, {13, 21, 32, 34, 40, 49..52, 93..97, 99..101, 103, 116, 118..119}]
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 LL(1)? false
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 
+DECISION 73 in rule expression
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 look=[null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 LL(1)? false
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 
+DECISION 74 in rule expression
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 look=[null, null]
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 LL(1)? false
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 
+DECISION 75 in rule primaryExpression
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 look=[32, null]
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 LL(1)? false
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 
+DECISION 76 in rule primaryExpression
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 look=[32, null]
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 LL(1)? false
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 
+DECISION 77 in rule primaryExpression
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 look=[99, {100..101}, 103, 119, {13, 40, 118}, 116, {21, 32}, {13, 34, 40, 49..52, 93..97, 118}]
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 LL(1)? false
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 
+DECISION 78 in rule expressionList
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 look=[15, 22]
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 
+DECISION 79 in rule nameValueList
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 look=[15, {15..16}]
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 LL(1)? false
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 
+DECISION 80 in rule nameValueList
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 look=[15, 16]
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 
+DECISION 81 in rule functionCallArguments
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 look=[{13, 40, 118}, 16]
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 
+DECISION 82 in rule functionCallArguments
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 look=[{4, 13, 21, 32, 34, 40, 49..60, 93..97, 99..101, 103, 116, 118..119}, 22]
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 
+DECISION 83 in rule functionCallArguments
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 look=[14, {4, 13, 21..22, 32, 34, 40, 49..60, 93..97, 99..101, 103, 116, 118..119}]
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 
+DECISION 84 in rule assemblyBlock
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 look=[{13..14, 21, 24, 28, 34, 40..41, 44, 46, 52, 84, 86..87, 100..101, 103, 106, 108, 118..119}, 16]
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 
+DECISION 85 in rule assemblyItem
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 look=[{13, 40, 118}, 14, {13, 34, 40, 46, 52, 100..101, 103, 118..119}, 84, {13, 21, 40, 118}, 86, {13, 40, 118}, 87, 28, 24, 41, 106, 108, 44, {100..101}, 119, 103]
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 LL(1)? false
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 
+DECISION 86 in rule assemblyExpression
+2022-09-23 23:56:43:135 LL1 LogManager.java:25 look=[{13, 34, 40, 46, 52, 118}, {100..101, 103, 119}]
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 
+DECISION 87 in rule assemblyCall
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 look=[46, 34, 52, {13, 40, 118}]
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 
+DECISION 88 in rule assemblyCall
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 look=[{13, 34, 40, 46, 52, 100..101, 103, 118..119}, {15, 22}]
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 
+DECISION 89 in rule assemblyCall
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 look=[15, 22]
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 
+DECISION 90 in rule assemblyCall
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 look=[21, {13..16, 21..22, 24, 28, 34, 40..41, 44, 46, 52, 84, 86..89, 100..101, 103, 106, 108, 118..119}]
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 LL(1)? false
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 
+DECISION 91 in rule assemblyLocalDefinition
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 look=[85, {13..14, 16, 21, 24, 28, 34, 40..41, 44, 46, 52, 84, 86..87, 100..101, 103, 106, 108, 118..119}]
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 
+DECISION 92 in rule assemblyIdentifierOrList
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 look=[{13, 40, 118}, 21]
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 
+DECISION 93 in rule assemblyIdentifierList
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 look=[15, {14, 22}]
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 
+DECISION 94 in rule assemblySwitch
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 look=[{88..89}, {13..14, 16, 21, 24, 28, 34, 40..41, 44, 46, 52, 84, 86..87, 100..101, 103, 106, 108, 118..119}]
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 
+DECISION 95 in rule assemblyCase
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 look=[88, 89]
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 
+DECISION 96 in rule assemblyFunctionDefinition
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 look=[{13, 40, 118}, 22]
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 
+DECISION 97 in rule assemblyFunctionDefinition
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 look=[90, 14]
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 
+DECISION 98 in rule assemblyFor
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 look=[14, {13, 34, 40, 46, 52, 100..101, 103, 118..119}]
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 
+DECISION 99 in rule assemblyFor
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 look=[14, {13, 34, 40, 46, 52, 100..101, 103, 118..119}]
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 
+DECISION 100 in rule tupleExpression
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 look=[{4, 13, 21, 32, 34, 40, 49..60, 93..97, 99..101, 103, 116, 118..119}, {15, 22}]
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 
+DECISION 101 in rule tupleExpression
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 look=[{4, 13, 21, 32, 34, 40, 49..60, 93..97, 99..101, 103, 116, 118..119}, {15, 22}]
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 
+DECISION 102 in rule tupleExpression
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 look=[15, 22]
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 
+DECISION 103 in rule tupleExpression
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 look=[15, 33]
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 
+DECISION 104 in rule tupleExpression
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 look=[{4, 13, 21, 32, 34, 40, 49..60, 93..97, 99..101, 103, 116, 118..119}, 33]
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 
+DECISION 105 in rule tupleExpression
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 look=[21, 32]
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 
+DECISION 106 in rule typeNameExpression
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 look=[{34, 49..52, 93..97}, {13, 40, 118}]
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 LL(1)? true
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 
+DECISION 107 in rule numberLiteral
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 look=[102, null]
+2022-09-23 23:56:43:136 LL1 LogManager.java:25 LL(1)? false
+2022-09-23 23:56:43:137 action-translator LogManager.java:25 translate 
+	package antlr;
+
+2022-09-23 23:56:43:160 action-translator LogManager.java:25 translate 
+2022-09-23 23:56:43:161 action-translator LogManager.java:25 translate precpred(_ctx, 3)
+2022-09-23 23:56:43:162 action-translator LogManager.java:25 translate precpred(_ctx, 3)
+2022-09-23 23:56:43:166 action-translator LogManager.java:25 translate 
+2022-09-23 23:56:43:167 action-translator LogManager.java:25 translate precpred(_ctx, 14)
+2022-09-23 23:56:43:167 action-translator LogManager.java:25 translate precpred(_ctx, 13)
+2022-09-23 23:56:43:167 action-translator LogManager.java:25 translate precpred(_ctx, 12)
+2022-09-23 23:56:43:168 action-translator LogManager.java:25 translate precpred(_ctx, 11)
+2022-09-23 23:56:43:168 action-translator LogManager.java:25 translate precpred(_ctx, 10)
+2022-09-23 23:56:43:168 action-translator LogManager.java:25 translate precpred(_ctx, 9)
+2022-09-23 23:56:43:168 action-translator LogManager.java:25 translate precpred(_ctx, 8)
+2022-09-23 23:56:43:168 action-translator LogManager.java:25 translate precpred(_ctx, 7)
+2022-09-23 23:56:43:168 action-translator LogManager.java:25 translate precpred(_ctx, 6)
+2022-09-23 23:56:43:168 action-translator LogManager.java:25 translate precpred(_ctx, 5)
+2022-09-23 23:56:43:168 action-translator LogManager.java:25 translate precpred(_ctx, 4)
+2022-09-23 23:56:43:168 action-translator LogManager.java:25 translate precpred(_ctx, 3)
+2022-09-23 23:56:43:169 action-translator LogManager.java:25 translate precpred(_ctx, 2)
+2022-09-23 23:56:43:169 action-translator LogManager.java:25 translate precpred(_ctx, 25)
+2022-09-23 23:56:43:169 action-translator LogManager.java:25 translate precpred(_ctx, 23)
+2022-09-23 23:56:43:169 action-translator LogManager.java:25 translate precpred(_ctx, 22)
+2022-09-23 23:56:43:169 action-translator LogManager.java:25 translate precpred(_ctx, 21)
+2022-09-23 23:56:43:169 action-translator LogManager.java:25 translate precpred(_ctx, 14)
+2022-09-23 23:56:43:169 action-translator LogManager.java:25 translate precpred(_ctx, 13)
+2022-09-23 23:56:43:169 action-translator LogManager.java:25 translate precpred(_ctx, 12)
+2022-09-23 23:56:43:169 action-translator LogManager.java:25 translate precpred(_ctx, 11)
+2022-09-23 23:56:43:169 action-translator LogManager.java:25 translate precpred(_ctx, 10)
+2022-09-23 23:56:43:169 action-translator LogManager.java:25 translate precpred(_ctx, 9)
+2022-09-23 23:56:43:169 action-translator LogManager.java:25 translate precpred(_ctx, 8)
+2022-09-23 23:56:43:169 action-translator LogManager.java:25 translate precpred(_ctx, 7)
+2022-09-23 23:56:43:169 action-translator LogManager.java:25 translate precpred(_ctx, 6)
+2022-09-23 23:56:43:169 action-translator LogManager.java:25 translate precpred(_ctx, 5)
+2022-09-23 23:56:43:169 action-translator LogManager.java:25 translate precpred(_ctx, 4)
+2022-09-23 23:56:43:169 action-translator LogManager.java:25 translate precpred(_ctx, 3)
+2022-09-23 23:56:43:169 action-translator LogManager.java:25 translate precpred(_ctx, 2)
+2022-09-23 23:56:43:169 action-translator LogManager.java:25 translate precpred(_ctx, 25)
+2022-09-23 23:56:43:169 action-translator LogManager.java:25 translate precpred(_ctx, 23)
+2022-09-23 23:56:43:170 action-translator LogManager.java:25 translate precpred(_ctx, 22)
+2022-09-23 23:56:43:170 action-translator LogManager.java:25 translate precpred(_ctx, 21)
+2022-09-23 23:56:43:239 action-translator LogManager.java:25 translate 
+	package antlr;
+
+2022-09-23 23:56:43:239 action-translator LogManager.java:25 translate 
+	package antlr;
+
+2022-09-23 23:56:43:243 action-translator LogManager.java:25 translate 
+	package antlr;
+
+2022-09-23 23:56:43:243 action-translator LogManager.java:25 translate 
+	package antlr;
+
+2022-09-23 23:56:43:247 action-translator LogManager.java:25 translate 
+	package antlr;
+
+2022-09-23 23:56:43:247 action-translator LogManager.java:25 translate 
+	package antlr;
+
+2022-09-23 23:56:43:253 action-translator LogManager.java:25 translate 
+	package antlr;
+
+2022-09-23 23:56:43:254 action-translator LogManager.java:25 translate 
+	package antlr;
+
